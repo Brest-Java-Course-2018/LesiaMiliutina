@@ -20,6 +20,7 @@ public class TestClass {
     /**
      * Tests the method int findSum(int, int)
      */
+
     @Test
     public void testFindSum(){
         assertEquals(8, App.findSum(3,5));
