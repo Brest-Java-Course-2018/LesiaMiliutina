@@ -1,7 +1,6 @@
 package com.epam.brest.course;
 
 import org.junit.Test;
-import org.junit.runner.Result;
 
 import static junit.framework.Assert.assertEquals;
 
