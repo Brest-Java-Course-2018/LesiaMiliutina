@@ -12,7 +12,8 @@
     <url>http://maven.apache.org</url>
 
     <modules>
-        <module>utils</module>
+        <module>core/coreapp</module>
+        <module>core/utils</module>
     </modules>
 
     <properties>
@@ -25,6 +26,11 @@
             <dependency>
                 <groupId>com.epam.brest.course</groupId>
                 <artifactId>utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.epam.brest.course</groupId>
+                <artifactId>coreapp</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
