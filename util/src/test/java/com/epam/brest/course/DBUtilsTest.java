@@ -4,8 +4,6 @@ import org.junit.Assert;
 
 import java.sql.SQLException;
 
-import static org.junit.Assert.*;
-
 public class DBUtilsTest {
 
     @org.junit.Test
