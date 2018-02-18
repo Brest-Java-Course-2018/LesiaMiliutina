@@ -47,6 +47,17 @@ public class DBUtils {
 
     }
 
+    public void removeUser(Connection connection, int id) throws SQLException {
+
+        System.out.println("(1) row was deleted.");
+
+        String delUser = "DELETE FROM app_user WHERE user_id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(delUser);
+        preparedStatement.setInt(1, id);
+        preparedStatement.executeUpdate();
+    }
+
+
     public void getUsers(Connection connection) throws SQLException {
 
         System.out.println("Get users: ");
