@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -33,4 +34,37 @@ public class DepartmentDaoImplTest {
     Assert.assertTrue(department.getDepartmentName().equals("Distribution"));
     Assert.assertTrue(department.getDescription().equals("Distribution Department"));
   }
+
+  @Test
+  public void addDepartment() {
+    Department testDepartment = new Department();
+    testDepartment.setDepartmentName("Test department");
+    testDepartment.setDescription("Test description");
+    Department department = departmentDao.addDepartment(testDepartment);
+    Assert.assertNotNull(department);
+    Assert.assertTrue(department.getDepartmentName().equals("Test department"));
+    Assert.assertTrue(department.getDescription().equals("Test description"));
+  }
+
+  @Test
+  public void updateDepartment() {
+    Department testDepartment = new Department();
+    testDepartment.setDepartmentId(1);
+    testDepartment.setDepartmentName("Test name");
+    testDepartment.setDescription("Test description");
+    departmentDao.updateDepartment(testDepartment);
+    Assert.assertTrue(testDepartment.getDepartmentName().equals("Test name"));
+    Assert.assertTrue(testDepartment.getDescription().equals("Test description"));
+
+  }
+
+  @Test(expected = EmptyResultDataAccessException.class)
+  public void deleteDepartmentById() {
+    Department department = new Department();
+    department.setDepartmentId(88);
+    departmentDao.addDepartment(department);
+    departmentDao.deleteDepartmentById(88);
+    departmentDao.getDepartmentById(88);
+  }
+
 }

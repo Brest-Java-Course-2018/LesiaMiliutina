@@ -14,45 +14,44 @@ public class Employee {
    * Get employee id.
    * @return employee id.
    */
-  public Integer getEmployeeId() {
+  public final Integer getEmployeeId() {
     return employeeId;
   }
 
-  public void setEmployeeId(Integer employeeId) {
+  public final void setEmployeeId(final Integer employeeId) {
     this.employeeId = employeeId;
   }
 
-  public String getEmployeeName() {
+  public final String getEmployeeName() {
     return employeeName;
   }
 
-  public void setEmployeeName(String employeeName) {
+  public final void setEmployeeName(final String employeeName) {
     this.employeeName = employeeName;
   }
 
-  public Integer getSalary() {
+  public final Integer getSalary() {
     return salary;
   }
 
-  public void setSalary(Integer salary) {
+  public final void setSalary(final Integer salary) {
     this.salary = salary;
   }
 
-  public Integer getDepartmentId() {
+  public final Integer getDepartmentId() {
     return departmentId;
   }
 
-  public void setDepartmentId(Integer departmentId) {
+  public final void setDepartmentId(final Integer departmentId) {
     this.departmentId = departmentId;
   }
 
   @Override
-  public String toString() {
-    return "Employee{" +
-            "employeeId=" + employeeId +
-            ", employeeName='" + employeeName + '\'' +
-            ", salary=" + salary +
-            ", departmentId=" + departmentId +
-            '}';
+  public final String toString() {
+    return "Employee{"
+            + "employeeId=" + employeeId
+            + ", employeeName='" + employeeName + '\''
+            + ", salary=" + salary
+            + ", departmentId=" + departmentId + '}';
   }
 }
