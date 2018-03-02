@@ -107,8 +107,6 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
     private static final String DELETE_DEPARTMENT_SQL =
             "DELETE FROM department WHERE departmentId = :departmentId";
-
-
   }
 
 }
