@@ -9,10 +9,36 @@ import java.util.List;
  */
 public interface DepartmentDao {
 
+  /**
+   * Method for getting all rows of table.
+   * @return all departments.
+   */
   List<Department> getDepartments();
+
+  /**
+   * Method for getting rows from table.
+   * @param departmentId department id.
+   * @return department by its id value.
+   */
   Department getDepartmentById(Integer departmentId);
+
+  /**
+   * Method for adding rows in table.
+   * @param department added department object.
+   * @return added department.
+   */
   Department addDepartment(Department department);
+
+  /**
+   * Method for updating.
+   * @param department department object that needed to be update.
+   */
   void updateDepartment(Department department);
+
+  /**
+   * Method for deleting rows from table.
+   * @param id department id.
+   */
   void deleteDepartmentById(Integer id);
 
 }

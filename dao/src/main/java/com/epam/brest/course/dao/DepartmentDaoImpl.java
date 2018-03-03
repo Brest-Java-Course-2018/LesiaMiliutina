@@ -12,13 +12,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Implementation of DepartmentDao interface.
+ */
 public class DepartmentDaoImpl implements DepartmentDao {
 
+  /**
+   * Simplifies the use of JDBC.
+   */
   private JdbcTemplate jdbcTemplate;
 
+  /**
+   * Allowing using names of parameters rather than '?' placeholders.
+   */
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 
+  /**
+   * Constructor for class.
+   * @param dataSource dataSource object.
+   */
   public DepartmentDaoImpl(final DataSource dataSource) {
     this.jdbcTemplate = new JdbcTemplate(dataSource);
     this.namedParameterJdbcTemplate =
@@ -26,6 +39,10 @@ public class DepartmentDaoImpl implements DepartmentDao {
   }
 
 
+  /**
+   * Method for getting all rows of table.
+   * @return all departments.
+   */
   @Override
   public final List<Department> getDepartments() {
     List<Department> departments = jdbcTemplate.query(
@@ -34,6 +51,11 @@ public class DepartmentDaoImpl implements DepartmentDao {
   }
 
 
+  /**
+   * Method for getting rows from table.
+   * @param departmentId department id.
+   * @return department by its id value.
+   */
   @Override
   public final Department getDepartmentById(final Integer departmentId) {
     SqlParameterSource namedParameters =
@@ -44,6 +66,11 @@ public class DepartmentDaoImpl implements DepartmentDao {
     return department;
   }
 
+  /**
+   * Method for adding rows in table.
+   * @param department added department object.
+   * @return added department.
+   */
   @Override
   public final Department addDepartment(final Department department) {
     SqlParameterSource namedParameters =
@@ -55,6 +82,10 @@ public class DepartmentDaoImpl implements DepartmentDao {
     return department;
   }
 
+  /**
+   * Method for updating.
+   * @param department department object that needed to be update.
+   */
   @Override
   public final void updateDepartment(final Department department) {
     SqlParameterSource namedParameters =
@@ -66,6 +97,10 @@ public class DepartmentDaoImpl implements DepartmentDao {
             Queries.UPDATE_DEPARTMENT_SQL, namedParameters);
   }
 
+  /**
+   * Method for deleting rows from table.
+   * @param id department id.
+   */
   @Override
   public final void deleteDepartmentById(final Integer id) {
     SqlParameterSource namedParameters =
@@ -74,37 +109,61 @@ public class DepartmentDaoImpl implements DepartmentDao {
             Queries.DELETE_DEPARTMENT_SQL, namedParameters);
   }
 
+  /**
+   * Row mapper for department class.
+   */
   private class DepartmentRowMapper implements RowMapper<Department> {
 
     @Override
-    public Department mapRow (final ResultSet resultSet,
+    public Department mapRow(final ResultSet resultSet,
                               final int i)
             throws SQLException {
+      int k = 1;
       Department department = new Department();
-      department.setDepartmentId(resultSet.getInt(1));
-      department.setDepartmentName(resultSet.getString(2));
-      department.setDescription(resultSet.getString(3));
+
+      department.setDepartmentId(resultSet.getInt(k));
+      department.setDepartmentName(resultSet.getString(++k));
+      department.setDescription(resultSet.getString(++k));
       return department;
     }
   }
 
+  /**
+   * SQL queries.
+   */
   private class Queries {
+
+    /**
+     * SELECT query.
+     */
     private static final String GET_DEPARTMENTS_SQL =
             "SELECT departmentId, departmentName, description FROM department";
 
+    /**
+     * SELECT WHERE query.
+     */
     private static final String GET_DEPARTMENT_BY_ID_SQL =
             "SELECT departmentId, departmentName, description "
                     + "FROM department WHERE departmentId = :departmentId";
 
+    /**
+     * INSERT INTO query.
+     */
     private static final String ADD_DEPARTMENT_SQL =
             "INSERT INTO department (departmentName, description) "
                     + "VALUES (:departmentName, :description)";
 
+    /**
+     * UPDATE query.
+     */
     private static final String UPDATE_DEPARTMENT_SQL =
             "UPDATE department SET departmentName = :departmentName, "
                     + "description = :description "
                     + "WHERE departmentId = :departmentId";
 
+    /**
+     * DELETE query.
+     */
     private static final String DELETE_DEPARTMENT_SQL =
             "DELETE FROM department WHERE departmentId = :departmentId";
   }

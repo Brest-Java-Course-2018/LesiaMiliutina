@@ -5,47 +5,93 @@ package com.epam.brest.course.model;
  */
 public class Employee {
 
+  /**
+   * Employee id.
+   */
   private Integer employeeId;
+  /**
+   * Name of employee.
+   */
   private String employeeName;
+  /**
+   * Employee's salary.
+   */
   private Integer salary;
+  /**
+   * Department id.
+   */
   private Integer departmentId;
 
   /**
-   * Get employee id.
+   * Getter for employee id.
    * @return employee id.
    */
   public final Integer getEmployeeId() {
     return employeeId;
   }
 
-  public final void setEmployeeId(final Integer employeeId) {
-    this.employeeId = employeeId;
+  /**
+   * Setter for employee id.
+   * @param eId employee id.
+   */
+  public final void setEmployeeId(final Integer eId) {
+    this.employeeId = eId;
   }
 
+
+  /**
+   * Getter for employee name.
+   * @return name of employee.
+   */
   public final String getEmployeeName() {
     return employeeName;
   }
 
-  public final void setEmployeeName(final String employeeName) {
-    this.employeeName = employeeName;
+  /**
+   * Setter for employee name.
+   * @param eName employee name.
+   */
+  public final void setEmployeeName(final String eName) {
+    this.employeeName = eName;
   }
 
+  /**
+   * Getter for employee salary.
+   * @return salary.
+   */
   public final Integer getSalary() {
     return salary;
   }
 
-  public final void setSalary(final Integer salary) {
-    this.salary = salary;
+
+  /**
+   * Setter for employee salary.
+   * @param eSalary employee salary.
+   */
+  public final void setSalary(final Integer eSalary) {
+    this.salary = eSalary;
   }
 
+  /**
+   * Get id of employee's department.
+   * @return department id.
+   */
   public final Integer getDepartmentId() {
     return departmentId;
   }
 
-  public final void setDepartmentId(final Integer departmentId) {
-    this.departmentId = departmentId;
+  /**
+   * Set employee's department.
+   * @param dId department id.
+   */
+  public final void setDepartmentId(final Integer dId) {
+    this.departmentId = dId;
   }
 
+  /**
+   * String representation.
+   * @return string representation of employee object.
+   */
   @Override
   public final String toString() {
     return "Employee{"
