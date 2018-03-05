@@ -1,11 +1,16 @@
 package com.epam.brest.course.dao;
 
 import com.epam.brest.course.model.Department;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -17,27 +22,33 @@ import java.util.List;
  */
 public class DepartmentDaoImpl implements DepartmentDao {
 
-  /**
-   * Simplifies the use of JDBC.
-   */
-  private JdbcTemplate jdbcTemplate;
+  public static final String DEPARTMENT_ID = "departmentId";
+  public static final String DEPARTMENT_NAME = "departmentName";
+  public static final String DESCRIPTION = "description";
+
+  @Value("${department.select}")
+  private String departmentSelect;
+  @Value("${department.selectById}")
+  private String departmentSelectById;
+  @Value("${department.add}")
+  private String departmentAdd;
+  @Value("${department.update}")
+  private String departmentUpdate;
+  @Value("${department.delete}")
+  private String departmentDelete;
+  @Value("${department.check}")
+  private String departmentCheck;
+
+
+
+  public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+  }
 
   /**
    * Allowing using names of parameters rather than '?' placeholders.
    */
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-
-  /**
-   * Constructor for class.
-   * @param dataSource dataSource object.
-   */
-  public DepartmentDaoImpl(final DataSource dataSource) {
-    this.jdbcTemplate = new JdbcTemplate(dataSource);
-    this.namedParameterJdbcTemplate =
-            new NamedParameterJdbcTemplate(dataSource);
-  }
-
 
   /**
    * Method for getting all rows of table.
@@ -45,8 +56,8 @@ public class DepartmentDaoImpl implements DepartmentDao {
    */
   @Override
   public final List<Department> getDepartments() {
-    List<Department> departments = jdbcTemplate.query(
-            Queries.GET_DEPARTMENTS_SQL, new DepartmentRowMapper());
+    List<Department> departments = namedParameterJdbcTemplate.getJdbcOperations().query(
+            departmentSelect, new DepartmentRowMapper());
     return departments;
   }
 
@@ -56,29 +67,54 @@ public class DepartmentDaoImpl implements DepartmentDao {
    * @param departmentId department id.
    * @return department by its id value.
    */
-  @Override
-  public final Department getDepartmentById(final Integer departmentId) {
-    SqlParameterSource namedParameters =
-            new MapSqlParameterSource("departmentId", departmentId);
-    Department department = namedParameterJdbcTemplate.
-            queryForObject(Queries.GET_DEPARTMENT_BY_ID_SQL,
-                    namedParameters, new DepartmentRowMapper());
-    return department;
-  }
+//  @Override
+//  public final Department getDepartmentById(final Integer departmentId) {
+//    SqlParameterSource namedParameters =
+//            new MapSqlParameterSource(DEPARTMENT_ID, departmentId);
+//    Department department = namedParameterJdbcTemplate.
+//            queryForObject(departmentSelectById,
+//                    namedParameters, new DepartmentRowMapper());
+//    return department;
+//  }
 
-  /**
+    /**
+     * Method for getting rows from table.
+     * @param departmentId department id.
+     * @return department by its id value.
+     */
+    @Override
+    public final Department getDepartmentById(final Integer departmentId) {
+        SqlParameterSource namedParameters =
+                new MapSqlParameterSource(DEPARTMENT_ID, departmentId);
+        Department department = namedParameterJdbcTemplate
+                .queryForObject(departmentSelectById, namedParameters,
+                        BeanPropertyRowMapper.newInstance(Department.class));
+        return department;
+    }
+
+    /**
    * Method for adding rows in table.
    * @param department added department object.
    * @return added department.
    */
   @Override
   public final Department addDepartment(final Department department) {
-    SqlParameterSource namedParameters =
+    MapSqlParameterSource namedParameters =
             new MapSqlParameterSource(
-                    "departmentName", department.getDepartmentName())
-                    .addValue("description", department.getDescription());
-    namedParameterJdbcTemplate.update(
-            Queries.ADD_DEPARTMENT_SQL, namedParameters);
+                    DEPARTMENT_NAME, department.getDepartmentName());
+    Integer result = namedParameterJdbcTemplate.queryForObject(
+            departmentCheck, namedParameters, Integer.class);
+    if(result == 0){
+      namedParameters = new MapSqlParameterSource();
+      namedParameters.addValue(DEPARTMENT_NAME, department.getDepartmentName());
+      namedParameters.addValue(DESCRIPTION, department.getDescription());
+
+      KeyHolder generateKeyHolder = new GeneratedKeyHolder();
+      namedParameterJdbcTemplate.update(departmentAdd, namedParameters, generateKeyHolder);
+      department.setDepartmentId(generateKeyHolder.getKey().intValue());
+    } else {
+      throw new IllegalArgumentException("Department with the same name is already exists.");
+    }
     return department;
   }
 
@@ -89,27 +125,22 @@ public class DepartmentDaoImpl implements DepartmentDao {
   @Override
   public final void updateDepartment(final Department department) {
     SqlParameterSource namedParameters =
-            new MapSqlParameterSource(
-                    "departmentId", department.getDepartmentId())
-                    .addValue("departmentName", department.getDepartmentName())
-                    .addValue("description", department.getDescription());
-    namedParameterJdbcTemplate.update(
-            Queries.UPDATE_DEPARTMENT_SQL, namedParameters);
+            new BeanPropertySqlParameterSource(department);
+    namedParameterJdbcTemplate.update(departmentUpdate, namedParameters);
   }
 
   /**
    * Method for deleting rows from table.
-   * @param id department id.
+   * @param departmentId department id.
    */
   @Override
-  public final void deleteDepartmentById(final Integer id) {
-    SqlParameterSource namedParameters =
-            new MapSqlParameterSource("departmentId", id);
-    namedParameterJdbcTemplate.update(
-            Queries.DELETE_DEPARTMENT_SQL, namedParameters);
+  public final void deleteDepartmentById(final Integer departmentId) {
+    namedParameterJdbcTemplate.getJdbcOperations().update(
+            departmentDelete, departmentId);
   }
 
   /**
+   * TODO: delete this class later
    * Row mapper for department class.
    */
   private class DepartmentRowMapper implements RowMapper<Department> {
@@ -118,54 +149,14 @@ public class DepartmentDaoImpl implements DepartmentDao {
     public Department mapRow(final ResultSet resultSet,
                               final int i)
             throws SQLException {
-      int k = 1;
+
       Department department = new Department();
 
-      department.setDepartmentId(resultSet.getInt(k));
-      department.setDepartmentName(resultSet.getString(++k));
-      department.setDescription(resultSet.getString(++k));
+      department.setDepartmentId(resultSet.getInt(DEPARTMENT_ID));
+      department.setDepartmentName(resultSet.getString(DEPARTMENT_NAME));
+      department.setDescription(resultSet.getString(DESCRIPTION));
       return department;
     }
-  }
-
-  /**
-   * SQL queries.
-   */
-  private class Queries {
-
-    /**
-     * SELECT query.
-     */
-    private static final String GET_DEPARTMENTS_SQL =
-            "SELECT departmentId, departmentName, description FROM department";
-
-    /**
-     * SELECT WHERE query.
-     */
-    private static final String GET_DEPARTMENT_BY_ID_SQL =
-            "SELECT departmentId, departmentName, description "
-                    + "FROM department WHERE departmentId = :departmentId";
-
-    /**
-     * INSERT INTO query.
-     */
-    private static final String ADD_DEPARTMENT_SQL =
-            "INSERT INTO department (departmentName, description) "
-                    + "VALUES (:departmentName, :description)";
-
-    /**
-     * UPDATE query.
-     */
-    private static final String UPDATE_DEPARTMENT_SQL =
-            "UPDATE department SET departmentName = :departmentName, "
-                    + "description = :description "
-                    + "WHERE departmentId = :departmentId";
-
-    /**
-     * DELETE query.
-     */
-    private static final String DELETE_DEPARTMENT_SQL =
-            "DELETE FROM department WHERE departmentId = :departmentId";
   }
 
 }
