@@ -18,12 +18,21 @@ public class Department {
    */
   private String description;
 
+  /**
+   * Default constructor.
+   */
   public Department() {
   }
 
-  public Department(String departmentName, String description) {
-    this.departmentName = departmentName;
-    this.description = description;
+  /**
+   * Constructor with arguments.
+   * @param dName name of department.
+   * @param dDesc department description.
+   */
+  public Department(final String dName,
+                    final String dDesc) {
+    this.departmentName = dName;
+    this.description = dDesc;
   }
 
   /**

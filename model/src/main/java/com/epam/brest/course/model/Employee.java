@@ -23,6 +23,26 @@ public class Employee {
   private Integer departmentId;
 
   /**
+   * Default constructor.
+   */
+  public Employee() {
+  }
+
+  /**
+   * Constructor with arguments.
+   * @param eName name of employee.
+   * @param eSalary employee's salary.
+   * @param depId id of department.
+   */
+  public Employee(final String eName,
+                  final Integer eSalary,
+                  final Integer depId) {
+    this.employeeName = eName;
+    this.salary = eSalary;
+    this.departmentId = depId;
+  }
+
+  /**
    * Getter for employee id.
    * @return employee id.
    */
