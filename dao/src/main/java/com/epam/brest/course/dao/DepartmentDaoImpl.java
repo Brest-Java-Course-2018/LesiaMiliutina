@@ -1,6 +1,8 @@
 package com.epam.brest.course.dao;
 
 import com.epam.brest.course.model.Department;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,6 +21,11 @@ import java.util.List;
  * Implementation of DepartmentDao interface.
  */
 public class DepartmentDaoImpl implements DepartmentDao {
+
+  /**
+   * Logger for DepartmentDaoImpl class.
+   */
+  private static final Logger LOGGER = LogManager.getLogger();
 
   /**
    * Constant variable.
@@ -84,6 +91,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
    */
   @Override
   public final List<Department> getDepartments() {
+    LOGGER.debug("getDepartments()");
     List<Department> departments =
             namedParameterJdbcTemplate.getJdbcOperations().
                     query(departmentSelect, new DepartmentRowMapper());
@@ -113,12 +121,13 @@ public class DepartmentDaoImpl implements DepartmentDao {
      */
     @Override
     public final Department getDepartmentById(final Integer departmentId) {
-        SqlParameterSource namedParameters =
-                new MapSqlParameterSource(DEPARTMENT_ID, departmentId);
-        Department department = namedParameterJdbcTemplate
-                .queryForObject(departmentSelectById, namedParameters,
+      LOGGER.debug("getDepartmentById({})", departmentId);
+      SqlParameterSource namedParameters =
+              new MapSqlParameterSource(DEPARTMENT_ID, departmentId);
+      Department department = namedParameterJdbcTemplate.
+              queryForObject(departmentSelectById, namedParameters,
                         BeanPropertyRowMapper.newInstance(Department.class));
-        return department;
+      return department;
     }
 
     /**
@@ -128,11 +137,14 @@ public class DepartmentDaoImpl implements DepartmentDao {
    */
   @Override
   public final Department addDepartment(final Department department) {
+    LOGGER.debug("addDepartment({})", department);
     MapSqlParameterSource namedParameters =
             new MapSqlParameterSource(
                     DEPARTMENT_NAME, department.getDepartmentName());
     Integer result = namedParameterJdbcTemplate.queryForObject(
             departmentCheck, namedParameters, Integer.class);
+
+    LOGGER.debug("result({})", result);
     if (result == 0) {
       namedParameters = new MapSqlParameterSource();
       namedParameters.addValue(DEPARTMENT_NAME, department.getDepartmentName());
