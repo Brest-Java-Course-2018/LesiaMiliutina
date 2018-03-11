@@ -23,6 +23,13 @@ public interface EmployeeDao {
     Employee getEmployeeById(Integer employeeId);
 
     /**
+     * Method for getting all employees of department.
+     * @param departmentId id of department.
+     * @return all employees of department.
+     */
+    List<Employee> getEmployeesByDepartmentId(Integer departmentId);
+
+    /**
      * Method for adding rows in table.
      * @param employee added employee object.
      * @return added employee.

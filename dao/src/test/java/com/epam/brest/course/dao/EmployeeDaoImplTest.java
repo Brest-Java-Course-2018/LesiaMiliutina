@@ -20,6 +20,11 @@ import java.util.List;
 @Transactional
 public class EmployeeDaoImplTest {
 
+    public static final String LANDAU = "Lev Landau";
+    public static final String PIERRE_CURIE = "Pierre Curie";
+    public static final String MARIE_CURIE = "Marie Curie";
+    public static final int SALARY_1 = 90000;
+    public static final int SALARY_2 = 121000;
     @Autowired
     EmployeeDao employeeDao;
 
@@ -35,18 +40,33 @@ public class EmployeeDaoImplTest {
         Employee employee = employeeDao.getEmployeeById(1);
         Assert.assertNotNull(employee);
         Assert.assertTrue(employee.getEmployeeId().equals(1));
-        Assert.assertTrue(employee.getEmployeeName().equals("Greg"));
-        Assert.assertTrue(employee.getSalary().equals(1210));
+        Assert.assertTrue(employee.getEmployeeName().equals(LANDAU));
+        Assert.assertTrue(employee.getSalary().equals(SALARY_1));
         Assert.assertTrue(employee.getDepartmentId().equals(1));
 
     }
+
+    @Test
+    public void getEmployeesByDepartmentId() throws Exception {
+        List<Employee> employees = employeeDao.getEmployeesByDepartmentId(1);
+        int sizeBefore = employees.size();
+        Employee employee1 = new Employee(PIERRE_CURIE, SALARY_1, 1);
+        employeeDao.addEmployee(employee1);
+
+        Employee employee2 = new Employee(MARIE_CURIE, SALARY_1, 1);
+        employeeDao.addEmployee(employee2);
+        employees = employeeDao.getEmployeesByDepartmentId(1);
+        Assert.assertNotNull(employeeDao);
+        Assert.assertTrue((employees.size() - sizeBefore) == 2);
+    }
+
 
     @Test
     public void addEmployee() {
         List<Employee> employees = employeeDao.getEmployees();
         int sizeBefore = employees.size();
         Employee employee =
-                new Employee("Elliot", 8900, 1);
+                new Employee(MARIE_CURIE, SALARY_1, 1);
         Employee newEmployee = employeeDao.addEmployee(employee);
 
         Assert.assertNotNull(newEmployee.getDepartmentId());
@@ -62,11 +82,11 @@ public class EmployeeDaoImplTest {
     public void updateEmployee() {
 
         Employee employee =
-                new Employee("Elliot", 8900, 1);
+                new Employee(MARIE_CURIE, SALARY_1, 1);
         Employee newEmployee = employeeDao.addEmployee(employee);
 
-        newEmployee.setEmployeeName("New name");
-        newEmployee.setSalary(2800);
+        newEmployee.setEmployeeName(PIERRE_CURIE);
+        newEmployee.setSalary(SALARY_2);
         employeeDao.updateEmployee(newEmployee);
         Employee updatedEmployee =
                 employeeDao.getEmployeeById(newEmployee.getEmployeeId());
@@ -84,7 +104,7 @@ public class EmployeeDaoImplTest {
     @Test
     public void deleteEmployeeById() {
         Employee employee =
-                new Employee("Elliot", 8900, 1);
+                new Employee(MARIE_CURIE, SALARY_1, 1);
         employee = employeeDao.addEmployee(employee);
         List<Employee> employees = employeeDao.getEmployees();
         int sizeBefore = employees.size();

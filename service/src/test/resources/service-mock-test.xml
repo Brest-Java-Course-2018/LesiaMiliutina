@@ -6,7 +6,6 @@
 
     <bean id="departmentDao" class="org.easymock.EasyMock" factory-method="createMock">
         <constructor-arg value="com.epam.brest.course.dao.DepartmentDao"/>
-
     </bean>
 
     <bean id="departmentService" class="com.epam.brest.course.service.DepartmentServiceImpl">

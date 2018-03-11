@@ -1,6 +1,8 @@
 package com.epam.brest.course.dao;
 
 import com.epam.brest.course.model.Employee;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -17,6 +19,10 @@ import java.util.List;
  */
 public class EmployeeDaoImpl implements EmployeeDao {
 
+    /**
+     * Logger for EmployeeDaoImpl class.
+     */
+    private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * Select sql query.
@@ -28,6 +34,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Value("${employee.selectById}")
     private String employeeSelectById;
+    /**
+     * Select where sql query.
+     */
+    @Value("${employee.selectByDepartmentId}")
+    private String employeeSelectByDepartmentId;
     /**
      * Insert sql query.
      */
@@ -54,16 +65,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
     /**
-     * Setter for field namedParameterJdbcTemplate.
+     * Constructor with argument.
      * @param namedParameter for named queries.
      */
-    public final void setNamedParameterJdbcTemplate(
-             final NamedParameterJdbcTemplate namedParameter) {
+    public EmployeeDaoImpl(final
+                           NamedParameterJdbcTemplate namedParameter) {
         this.namedParameterJdbcTemplate = namedParameter;
     }
-
 
     /**
      * Method for getting all rows of table.
@@ -71,6 +80,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Override
     public  final List<Employee> getEmployees() {
+        LOGGER.debug("getEmployees()");
         List<Employee> employees =
                 namedParameterJdbcTemplate.getJdbcOperations().
                         query(employeeSelect, BeanPropertyRowMapper.
@@ -85,6 +95,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Override
     public final Employee getEmployeeById(final Integer employeeId) {
+        LOGGER.debug("getEmployeeById({})", employeeId);
         SqlParameterSource namedParameters =
                 new MapSqlParameterSource(EMPLOYEE_ID, employeeId);
         Employee employee = namedParameterJdbcTemplate.
@@ -94,12 +105,29 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     /**
+     * Method for getting all employees of department.
+     * @param departmentId id of department.
+     * @return all employees of department.
+     */
+    @Override
+    public final List<Employee> getEmployeesByDepartmentId(
+            final Integer departmentId) {
+        LOGGER.debug("getEmployeesByDepartmentId({})", departmentId);
+        List<Employee> employees = namedParameterJdbcTemplate.
+                getJdbcOperations().
+                query(employeeSelectByDepartmentId, new Object[]{departmentId},
+                        BeanPropertyRowMapper.newInstance(Employee.class));
+        return employees;
+    }
+
+    /**
      * Method for adding rows in table.
      * @param employee added employee object.
      * @return added employee.
      */
     @Override
     public final Employee addEmployee(final Employee employee) {
+        LOGGER.debug("addEmployee({})", employee);
         SqlParameterSource namedParameters =
                 new BeanPropertySqlParameterSource(employee);
         KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
@@ -115,6 +143,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Override
     public final void updateEmployee(final Employee employee) {
+        LOGGER.debug("updateEmployee({})", employee);
         SqlParameterSource namedParameters =
                 new BeanPropertySqlParameterSource(employee);
         namedParameterJdbcTemplate.update(employeeUpdate, namedParameters);
@@ -127,6 +156,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Override
     public final void deleteEmployeeById(final Integer employeeId) {
+        LOGGER.debug("deleteEmployeeById({})", employeeId);
         namedParameterJdbcTemplate.getJdbcOperations().update(
                 employeeDelete, employeeId);
     }

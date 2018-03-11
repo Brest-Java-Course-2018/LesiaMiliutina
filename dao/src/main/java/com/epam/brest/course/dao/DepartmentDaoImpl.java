@@ -76,12 +76,12 @@ public class DepartmentDaoImpl implements DepartmentDao {
    */
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-  /**
-   * Setter for field namedParameterJdbcTemplate.
+   /**
+   * Constructor with parameter.
    * @param namedParameter for named queries.
    */
-  public final void setNamedParameterJdbcTemplate(
-          final NamedParameterJdbcTemplate namedParameter) {
+  public DepartmentDaoImpl(final
+                           NamedParameterJdbcTemplate namedParameter) {
     this.namedParameterJdbcTemplate = namedParameter;
   }
 
@@ -167,6 +167,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
    */
   @Override
   public final void updateDepartment(final Department department) {
+    LOGGER.debug("updateDepartment({})", department);
     SqlParameterSource namedParameters =
             new BeanPropertySqlParameterSource(department);
     namedParameterJdbcTemplate.update(departmentUpdate, namedParameters);
@@ -178,6 +179,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
    */
   @Override
   public final void deleteDepartmentById(final Integer departmentId) {
+    LOGGER.debug("deleteDepartmentById({})", departmentId);
     namedParameterJdbcTemplate.getJdbcOperations().update(
             departmentDelete, departmentId);
   }

@@ -1,6 +1,7 @@
 package com.epam.brest.course.service;
 
 import com.epam.brest.course.dao.DepartmentDao;
+//import com.epam.brest.course.dao.EmployeeDao;
 import com.epam.brest.course.model.Department;
 import org.easymock.Capture;
 import org.easymock.EasyMock;
@@ -11,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+//import java.util.ArrayList;
+//import java.util.List;
+
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:service-mock-test.xml"})
 public class DepartmentServiceImplMockTest {
@@ -20,12 +25,15 @@ public class DepartmentServiceImplMockTest {
 
     private static final Department DEPARTMENT =
             new Department("Distribution", "Distribution Department");
+//    private static final Department DEPARTMENT_1 =
+//            new Department("Development", "Development Department");
 
     @Autowired
     private DepartmentService departmentService;
 
     @Autowired
     private DepartmentDao mockDepartmentDao;
+
 
     @Test
     public void updateDepartmentDescription() {
@@ -43,5 +51,22 @@ public class DepartmentServiceImplMockTest {
         Assert.assertEquals(DESC, department.getDescription());
     }
 
+    /**
+     * Needs to be corrected!!!
+     */
+    @Test
+    public void markDisbandedDepartment() {
+
+//        List<Department> list = new ArrayList<>();
+//        list.add(DEPARTMENT);
+//        list.add(DEPARTMENT_1);
+//        EasyMock.expect(mockDepartmentDao.getDepartments()).andReturn(list);
+//        EasyMock.replay(mockDepartmentDao);
+//
+//        departmentService.markDepartmentsAsDisbanded();
+//
+//        Assert.assertNotEquals(DepartmentServiceImpl.MARKER, DEPARTMENT.getDescription());
+//        Assert.assertEquals(DepartmentServiceImpl.MARKER, DEPARTMENT_1.getDescription());
+    }
 
 }
