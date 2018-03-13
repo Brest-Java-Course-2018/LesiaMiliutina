@@ -21,10 +21,4 @@ public interface DepartmentService {
      */
     void updateDepartmentDescription(Integer departmentId, String description);
 
-
-    /**
-     * Mark departments that was disbanded.
-     */
-    void markDepartmentsAsDisbanded();
-
 }

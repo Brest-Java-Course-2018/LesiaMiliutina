@@ -17,6 +17,7 @@
         <module>dao</module>
         <module>test-db</module>
         <module>service</module>
+        <module>web-app</module>
     </modules>
 
     <distributionManagement>
@@ -31,6 +32,7 @@
         <h2.version>1.4.196</h2.version>
         <spring.version>4.3.14.RELEASE</spring.version>
         <log4j2.version>2.10.0</log4j2.version>
+        <thymeleaf-spring4.version>3.0.9.RELEASE</thymeleaf-spring4.version>
     </properties>
 
     <dependencyManagement>
@@ -41,6 +43,32 @@
                 <groupId>com.epam.brest.course</groupId>
                 <artifactId>model</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest.course</groupId>
+                <artifactId>dao</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest.course</groupId>
+                <artifactId>test-db</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest.course</groupId>
+                <artifactId>service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest.course</groupId>
+                <artifactId>web-app</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>
@@ -68,16 +96,21 @@
             </dependency>
 
             <dependency>
-                <groupId>com.epam.brest.course</groupId>
-                <artifactId>dao</artifactId>
-                <version>${project.version}</version>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.epam.brest.course</groupId>
-                <artifactId>test-db</artifactId>
-                <version>${project.version}</version>
-                <scope>test</scope>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.thymeleaf</groupId>
+                <artifactId>thymeleaf-spring4</artifactId>
+                <version>${thymeleaf-spring4.version}</version>
             </dependency>
 
             <dependency>
@@ -110,6 +143,12 @@
                 <artifactId>junit</artifactId>
                 <version>4.12</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>3.5.1</version>
             </dependency>
 
         </dependencies>
@@ -174,12 +213,6 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>cobertura-maven-plugin</artifactId>
                     <version>2.7</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>cobertura-maven-plugin</artifactId>
-                    <version>2.7</version>
                     <configuration>
                         <format>xml</format>
                         <maxmem>256m</maxmem>
@@ -192,6 +225,22 @@
                     <groupId>org.eluder.coveralls</groupId>
                     <artifactId>coveralls-maven-plugin</artifactId>
                     <version>4.3.0</version>
+                </plugin>
+
+                <!-- embedded Jetty server, for testing -->
+                <plugin>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-maven-plugin</artifactId>
+                    <version>9.4.8.v20171121</version>
+                    <configuration>
+                        <scanIntervalSeconds>10</scanIntervalSeconds>
+                        <webApp>
+                            <contextPath>/</contextPath>
+                        </webApp>
+                        <httpConnector>
+                            <port>8080</port>
+                        </httpConnector>
+                    </configuration>
                 </plugin>
 
             </plugins>
@@ -312,6 +361,11 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
             </plugin>
 
         </plugins>
