@@ -40,7 +40,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return all departments.
      */
     @Override
-    public Collection<Department> getDepartments() {
+    public final Collection<Department> getDepartments() {
         LOGGER.debug("getDepartments()");
         return departmentDao.getDepartments();
     }
@@ -64,7 +64,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return added department.
      */
     @Override
-    public Department addDepartment(Department department) {
+    public final Department addDepartment(final Department department) {
         LOGGER.debug("addDepartment({})", department);
         return departmentDao.addDepartment(department);
     }
@@ -75,7 +75,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @param department department for updating.
      */
     @Override
-    public void updateDepartment(Department department) {
+    public final void updateDepartment(final Department department) {
         LOGGER.debug("updateDepartment({})", department);
         departmentDao.updateDepartment(department);
     }
@@ -86,7 +86,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @param id id of department to remove.
      */
     @Override
-    public void deleteDepartmentById(Integer id) {
+    public final void deleteDepartmentById(final Integer id) {
         LOGGER.debug("deleteDepartmentById({})", id);
         departmentDao.deleteDepartmentById(id);
     }

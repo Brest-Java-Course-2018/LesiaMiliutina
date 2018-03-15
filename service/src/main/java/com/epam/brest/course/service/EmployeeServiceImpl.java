@@ -23,7 +23,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * DepartmentDao object for services.
      */
     @Autowired
-    EmployeeDao employeeDao;
+    private EmployeeDao employeeDao;
 
     /**
      * Constructor with parameter.
@@ -39,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return all employees.
      */
     @Override
-    public Collection<Employee> getEmployees() {
+    public final Collection<Employee> getEmployees() {
         LOGGER.debug("getEmployees()");
         return employeeDao.getEmployees();
     }
@@ -51,7 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return employee by its id.
      */
     @Override
-    public Employee getEmployeeById(Integer employeeId) {
+    public final Employee getEmployeeById(final Integer employeeId) {
         LOGGER.debug("getEmployeeById({})", employeeId);
         return employeeDao.getEmployeeById(employeeId);
     }
@@ -63,8 +63,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return all employees of department.
      */
     @Override
-    public Collection<Employee> getEmployeesByDepartmentId(
-            Integer departmentId) {
+    public final Collection<Employee> getEmployeesByDepartmentId(
+            final Integer departmentId) {
         LOGGER.debug("getEmployeesByDepartmentId({})", departmentId);
         return employeeDao.getEmployeesByDepartmentId(departmentId);
     }
@@ -76,7 +76,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return added employee.
      */
     @Override
-    public Employee addEmployee(Employee employee) {
+    public final Employee addEmployee(final Employee employee) {
         LOGGER.debug("addEmployee({})", employee);
         return employeeDao.addEmployee(employee);
     }
@@ -87,7 +87,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param employee employee object that needed to be update.
      */
     @Override
-    public void updateEmployee(Employee employee) {
+    public final void updateEmployee(final Employee employee) {
         LOGGER.debug("updateEmployee({})", employee);
         employeeDao.updateEmployee(employee);
     }
@@ -98,7 +98,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param employeeId department id.
      */
     @Override
-    public void deleteEmployeeById(Integer employeeId) {
+    public final void deleteEmployeeById(final Integer employeeId) {
         LOGGER.debug("deleteEmployeeById({})", employeeId);
         employeeDao.deleteEmployeeById(employeeId);
     }

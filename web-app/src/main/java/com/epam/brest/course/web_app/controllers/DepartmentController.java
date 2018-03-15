@@ -16,8 +16,11 @@ import java.util.Collection;
 @Controller
 public class DepartmentController {
 
+    /**
+     * DepartmentService field for department controller.
+     */
     @Autowired
-    DepartmentService departmentService;
+    private DepartmentService departmentService;
     /**
      * Edit department controller.
      * @param id id of department.
@@ -25,8 +28,8 @@ public class DepartmentController {
      * @return view.
      */
     @GetMapping(value = "/department/{id}")
-    public final String getDepartmentById(@PathVariable Integer id,
-                                          Model model) {
+    public final String getDepartmentById(@PathVariable final Integer id,
+                                          final Model model) {
         Department department =
                 departmentService.getDepartmentById(id);
         model.addAttribute("department", department);
