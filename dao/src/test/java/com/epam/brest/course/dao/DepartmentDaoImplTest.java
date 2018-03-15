@@ -7,13 +7,12 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Collection;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:test-db-spring.xml",
@@ -46,7 +45,7 @@ public class DepartmentDaoImplTest {
 
   @Test
   public void getDepartments() {
-    List<Department> departments = departmentDao.getDepartments();
+    Collection<Department> departments = departmentDao.getDepartments();
     Assert.assertFalse(departments.isEmpty());
   }
 
@@ -61,7 +60,7 @@ public class DepartmentDaoImplTest {
 
   @Test
   public void addDepartment() {
-    List<Department> departments = departmentDao.getDepartments();
+    Collection<Department> departments = departmentDao.getDepartments();
 
     int sizeBefore = departments.size();
     Department department =
@@ -125,7 +124,7 @@ public class DepartmentDaoImplTest {
             new Department(EDUCATION,
                     DEPARTMENT_OF_EDUCATION);
     department = departmentDao.addDepartment(department);
-    List<Department> departments = departmentDao.getDepartments();
+    Collection<Department> departments = departmentDao.getDepartments();
     int sizeBefore = departments.size();
     departmentDao.deleteDepartmentById(department.getDepartmentId());
     Assert.assertTrue((sizeBefore - 1) ==

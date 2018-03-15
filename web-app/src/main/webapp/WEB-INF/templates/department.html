@@ -33,11 +33,13 @@
         <div class="collapse navbar-collapse" id="navbarsNav">
             <div class="navbar-nav">
                 <a class="nav-item nav-link active"
-                   href="departments.html">Departments
+                   href="departments.html"
+                   th:href="@{/departments}">Departments
                     <span class="sr-only">(current)</span>
                 </a>
                 <a class="nav-item nav-link"
-                   href="employees.html">Employees</a>
+                   href="employees.html"
+                   th:href="@{/employees}">Employees</a>
             </div>
         </div>
     </nav>
@@ -52,6 +54,7 @@
                 data-toggle="tooltip"
                 data-placement="bottom">
                 <a href="departments.html"
+                   th:href="@{/departments}"
                    class="btn btn-light btn-block">
                     <i class="fa fa-arrow-left"></i>
                 </a>
@@ -62,7 +65,9 @@
 
         <ul class="p-0 pr-3 navbar-nav">
             <li class="nav-item">
-                <a href="departments.html" class="btn btn-light"
+                <a href="departments.html"
+                   th:href="@{/departments}"
+                   class="btn btn-light"
                    data-toggle="tooltip"
                    data-placement="bottom"
                    title="Save changes">
@@ -89,7 +94,8 @@
                                            class="form-control"
                                            id="deptNameInput"
                                            placeholder="Department name"
-                                           value="CEO">
+                                           value="CEO"
+                                           th:value ="${department.departmentName}">
                                 </div>
                                 <div class="form-group">
                                     <label class="d-none d-sm-inline"
@@ -98,7 +104,8 @@
                                            class="form-control"
                                            id="deptNameInput1"
                                            placeholder="Description"
-                                           value="CEO Description">
+                                           value="CEO Description"
+                                           th:value = "${department.description}" >
                                 </div>
                             </form>
                         </div>

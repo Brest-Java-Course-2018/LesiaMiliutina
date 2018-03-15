@@ -1,13 +1,15 @@
-package com.epam.brest.course.dao;
+package com.epam.brest.course.service;
 
 import com.epam.brest.course.model.Employee;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
 /**
- * Employee DAO interface.
+ * Employee service interface.
  */
-public interface EmployeeDao {
+@Service
+public interface EmployeeService {
 
     /**
      * Method for getting all employees.
@@ -47,4 +49,6 @@ public interface EmployeeDao {
      * @param employeeId department id.
      */
     void deleteEmployeeById(Integer employeeId);
+
+
 }

@@ -10,8 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
+import java.util.Collection;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:test-db-spring.xml",
@@ -30,7 +29,7 @@ public class EmployeeDaoImplTest {
 
     @Test
     public void getEmployees() {
-        List<Employee> employees = employeeDao.getEmployees();
+        Collection<Employee> employees = employeeDao.getEmployees();
         Assert.assertFalse(employees.isEmpty());
     }
 
@@ -48,7 +47,7 @@ public class EmployeeDaoImplTest {
 
     @Test
     public void getEmployeesByDepartmentId() throws Exception {
-        List<Employee> employees = employeeDao.getEmployeesByDepartmentId(1);
+        Collection<Employee> employees = employeeDao.getEmployeesByDepartmentId(1);
         int sizeBefore = employees.size();
         Employee employee1 = new Employee(PIERRE_CURIE, SALARY_1, 1);
         employeeDao.addEmployee(employee1);
@@ -63,7 +62,7 @@ public class EmployeeDaoImplTest {
 
     @Test
     public void addEmployee() {
-        List<Employee> employees = employeeDao.getEmployees();
+        Collection<Employee> employees = employeeDao.getEmployees();
         int sizeBefore = employees.size();
         Employee employee =
                 new Employee(MARIE_CURIE, SALARY_1, 1);
@@ -84,7 +83,6 @@ public class EmployeeDaoImplTest {
         Employee employee =
                 new Employee(MARIE_CURIE, SALARY_1, 1);
         Employee newEmployee = employeeDao.addEmployee(employee);
-
         newEmployee.setEmployeeName(PIERRE_CURIE);
         newEmployee.setSalary(SALARY_2);
         employeeDao.updateEmployee(newEmployee);
@@ -106,7 +104,7 @@ public class EmployeeDaoImplTest {
         Employee employee =
                 new Employee(MARIE_CURIE, SALARY_1, 1);
         employee = employeeDao.addEmployee(employee);
-        List<Employee> employees = employeeDao.getEmployees();
+        Collection<Employee> employees = employeeDao.getEmployees();
         int sizeBefore = employees.size();
         employeeDao.deleteEmployeeById(employee.getEmployeeId());
         Assert.assertTrue((sizeBefore - 1) ==

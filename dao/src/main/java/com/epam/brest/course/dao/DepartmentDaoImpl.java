@@ -15,7 +15,7 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Implementation of DepartmentDao interface.
@@ -90,9 +90,9 @@ public class DepartmentDaoImpl implements DepartmentDao {
    * @return all departments.
    */
   @Override
-  public final List<Department> getDepartments() {
+  public final Collection<Department> getDepartments() {
     LOGGER.debug("getDepartments()");
-    List<Department> departments =
+    Collection<Department> departments =
             namedParameterJdbcTemplate.getJdbcOperations().
                     query(departmentSelect, new DepartmentRowMapper());
     return departments;

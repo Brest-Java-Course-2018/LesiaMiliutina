@@ -1,11 +1,21 @@
 package com.epam.brest.course.service;
 
 import com.epam.brest.course.model.Department;
+import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 
 /**
  * Department servive interface.
  */
+@Service
 public interface DepartmentService {
+
+    /**
+     * Method for getting all rows of table.
+     * @return all departments.
+     */
+    Collection<Department> getDepartments();
 
     /**
      * Method for getting a department.
@@ -13,6 +23,25 @@ public interface DepartmentService {
      * @return department by its id.
      */
     Department getDepartmentById(Integer departmentId);
+
+    /**
+     * Method for adding a department.
+     * @param department department for adding.
+     * @return added department.
+     */
+    Department addDepartment(Department department);
+
+    /**
+     * Method for updating.
+     * @param department department for updating.
+     */
+    void updateDepartment(Department department);
+
+    /**
+     * Method for deleting.
+     * @param id id of department to remove.
+     */
+    void deleteDepartmentById(Integer id);
 
     /**
      * Method for updating department description.
