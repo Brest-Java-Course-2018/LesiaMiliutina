@@ -83,10 +83,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="employee : ${employees}">
-                            <td th:text = "${employee.employeeName}">Ivan Ivanov</td>
-                            <td>ivan.ivanov@test.com</td>
-                            <td>1000</td>
+                        <tr th:each = "employee : ${employees}">
+                            <td th:text = "${employee.employeeName}"></td>
+                            <td th:text = "${employee.employeeMail}"></td>
+                            <td th:text = "${employee.salary}"></td>
                             <td class="text-right">
                                 <a title="Edit employee"
                                    data-toggle="tooltip"
@@ -111,36 +111,13 @@
                                 </a>
                             </td>
                         </tr>
-                        <tr th:remove = "all">
-                            <td>Alexander Petrov</td>
-                            <td>alex.petrov@test.com</td>
-                            <td>1100</td>
-                            <td class="text-right">
-                                <a title="Edit employee"
-                                   data-toggle="tooltip"
-                                   data-placement="top"
-                                   href="employee.html"
-                                   class="btn-sm btn-outline-secondary p-0 pl-1 pr-3">
-                                    <i class="fa fa-pencil"></i>
-                                    <span class="d-none d-md-inline">Edit</span>
-                                </a>
-                                <a href="#"
-                                   class="btn-sm btn-outline-secondary p-0 pl-1 pr-2"
-                                   title="Delete employee"
-                                   data-toggle="tooltip"
-                                   data-placement="top">
-                                <span
-                                        data-target="#ConfirmDeleteModal"
-                                        data-toggle="modal">
-                                <i class="fa fa-remove"></i>
-                                <span class="d-none d-md-inline">Delete</span>
-                                </span>
-                                </a>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
+
+                <div class="card alert alert-info" th:if="${employees.isEmpty()}">
+                </div>
+
             </div>
         </div>
     </div>

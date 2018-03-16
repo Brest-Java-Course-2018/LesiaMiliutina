@@ -19,11 +19,13 @@ import java.util.Collection;
 @Transactional
 public class EmployeeDaoImplTest {
 
-    public static final String LANDAU = "Lev Landau";
-    public static final String PIERRE_CURIE = "Pierre Curie";
-    public static final String MARIE_CURIE = "Marie Curie";
-    public static final int SALARY_1 = 90000;
-    public static final int SALARY_2 = 121000;
+    private static final String LANDAU = "Lev Landau";
+    private static final String PIERRE_CURIE = "Pierre Curie";
+    private static final String MARIE_CURIE = "Marie Curie";
+    private static final String MAIL = "test@mail";
+    private static final String EMAIL = "llandau@mail";
+    private static final int SALARY_1 = 90000;
+    private static final int SALARY_2 = 121000;
     @Autowired
     EmployeeDao employeeDao;
 
@@ -40,19 +42,20 @@ public class EmployeeDaoImplTest {
         Assert.assertNotNull(employee);
         Assert.assertTrue(employee.getEmployeeId().equals(1));
         Assert.assertTrue(employee.getEmployeeName().equals(LANDAU));
+        Assert.assertTrue(employee.getEmployeeMail().equals(EMAIL));
         Assert.assertTrue(employee.getSalary().equals(SALARY_1));
         Assert.assertTrue(employee.getDepartmentId().equals(1));
 
     }
 
     @Test
-    public void getEmployeesByDepartmentId() throws Exception {
+    public void getEmployeesByDepartmentId() {
         Collection<Employee> employees = employeeDao.getEmployeesByDepartmentId(1);
         int sizeBefore = employees.size();
-        Employee employee1 = new Employee(PIERRE_CURIE, SALARY_1, 1);
+        Employee employee1 = new Employee(PIERRE_CURIE, MAIL, SALARY_1, 1);
         employeeDao.addEmployee(employee1);
 
-        Employee employee2 = new Employee(MARIE_CURIE, SALARY_1, 1);
+        Employee employee2 = new Employee(MARIE_CURIE, MAIL, SALARY_1, 1);
         employeeDao.addEmployee(employee2);
         employees = employeeDao.getEmployeesByDepartmentId(1);
         Assert.assertNotNull(employeeDao);
@@ -65,7 +68,7 @@ public class EmployeeDaoImplTest {
         Collection<Employee> employees = employeeDao.getEmployees();
         int sizeBefore = employees.size();
         Employee employee =
-                new Employee(MARIE_CURIE, SALARY_1, 1);
+                new Employee(MARIE_CURIE, MAIL, SALARY_1, 1);
         Employee newEmployee = employeeDao.addEmployee(employee);
 
         Assert.assertNotNull(newEmployee.getDepartmentId());
@@ -81,9 +84,10 @@ public class EmployeeDaoImplTest {
     public void updateEmployee() {
 
         Employee employee =
-                new Employee(MARIE_CURIE, SALARY_1, 1);
+                new Employee(MARIE_CURIE, MAIL, SALARY_1, 1);
         Employee newEmployee = employeeDao.addEmployee(employee);
         newEmployee.setEmployeeName(PIERRE_CURIE);
+        newEmployee.setEmployeeMail(EMAIL);
         newEmployee.setSalary(SALARY_2);
         employeeDao.updateEmployee(newEmployee);
         Employee updatedEmployee =
@@ -92,6 +96,8 @@ public class EmployeeDaoImplTest {
                 equals(updatedEmployee.getEmployeeId()));
         Assert.assertTrue(newEmployee.getEmployeeName().
                 equals(updatedEmployee.getEmployeeName()));
+        Assert.assertTrue(newEmployee.getEmployeeMail().
+                equals(updatedEmployee.getEmployeeMail()));
         Assert.assertTrue(newEmployee.getSalary().
                 equals(updatedEmployee.getSalary()));
         Assert.assertTrue(newEmployee.getDepartmentId().
@@ -102,7 +108,7 @@ public class EmployeeDaoImplTest {
     @Test
     public void deleteEmployeeById() {
         Employee employee =
-                new Employee(MARIE_CURIE, SALARY_1, 1);
+                new Employee(MARIE_CURIE, MAIL, SALARY_1, 1);
         employee = employeeDao.addEmployee(employee);
         Collection<Employee> employees = employeeDao.getEmployees();
         int sizeBefore = employees.size();

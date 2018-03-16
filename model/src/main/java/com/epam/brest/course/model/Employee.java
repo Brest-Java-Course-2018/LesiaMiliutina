@@ -14,6 +14,10 @@ public class Employee {
    */
   private String employeeName;
   /**
+   * Employee mail address.
+   */
+  private String employeeMail;
+  /**
    * Employee's salary.
    */
   private Integer salary;
@@ -31,13 +35,16 @@ public class Employee {
   /**
    * Constructor with arguments.
    * @param eName name of employee.
+   * @param eMail mail address of employee.
    * @param eSalary employee's salary.
    * @param depId id of department.
    */
   public Employee(final String eName,
+                  final String eMail,
                   final Integer eSalary,
                   final Integer depId) {
     this.employeeName = eName;
+    this.employeeMail = eMail;
     this.salary = eSalary;
     this.departmentId = depId;
   }
@@ -76,6 +83,22 @@ public class Employee {
   }
 
   /**
+   * Getter for employee mail.
+   * @return email.
+   */
+  public final String getEmployeeMail() {
+    return employeeMail;
+  }
+
+  /**
+   * Setter for employee mail.
+   * @param eMail mail.
+   */
+  public final void setEmployeeMail(final String eMail) {
+    this.employeeMail = eMail;
+  }
+
+  /**
    * Getter for employee salary.
    * @return salary.
    */
@@ -110,6 +133,7 @@ public class Employee {
 
   /**
    * String representation.
+   *
    * @return string representation of employee object.
    */
   @Override
@@ -117,6 +141,7 @@ public class Employee {
     return "Employee{"
             + "employeeId=" + employeeId
             + ", employeeName='" + employeeName + '\''
+            + ", employeeMail='" + employeeMail + '\''
             + ", salary=" + salary
             + ", departmentId=" + departmentId + '}';
   }

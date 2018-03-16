@@ -23,8 +23,8 @@ public class EmployeeServiceImplTest {
 
 
     private static final String LANDAU = "Lev Landau";
-    private static final String PIERRE_CURIE = "Pierre Curie";
     private static final String MARIE_CURIE = "Marie Curie";
+    private static final String MAIL = "test@mail";
     private static final int SALARY_1 = 90000;
     private static final int SALARY_2 = 121000;
     private static final int D_ID = 1;
@@ -43,7 +43,7 @@ public class EmployeeServiceImplTest {
 
     @Test
     public void getEmployeeById() {
-        Employee test = new Employee(MARIE_CURIE, SALARY_1,D_ID);
+        Employee test = new Employee(MARIE_CURIE, MAIL, SALARY_1,D_ID);
         employeeService.addEmployee(test);
         Employee employee = employeeService.getEmployeeById(test.getEmployeeId());
         Assert.assertNotNull(employee);
@@ -56,8 +56,8 @@ public class EmployeeServiceImplTest {
     @Test
     public void getEmployeesByDepartmentId() {
         int sizeBefore = employeeService.getEmployeesByDepartmentId(D_ID).size();
-        employeeService.addEmployee(new Employee(MARIE_CURIE, SALARY_1,D_ID));
-        employeeService.addEmployee(new Employee(MARIE_CURIE, SALARY_1,D_ID));
+        employeeService.addEmployee(new Employee(MARIE_CURIE,MAIL,SALARY_1,D_ID));
+        employeeService.addEmployee(new Employee(MARIE_CURIE,MAIL,SALARY_1,D_ID));
         int sizeAfter = employeeService.getEmployeesByDepartmentId(D_ID).size();
         Assert.assertTrue((sizeAfter - sizeBefore) == 2);
     }
@@ -66,7 +66,7 @@ public class EmployeeServiceImplTest {
     public void addEmployee() {
         Collection<Employee> employees = employeeService.getEmployees();
         int sizeBefore = employees.size();
-        employeeService.addEmployee(new Employee(LANDAU, SALARY_1, D_ID));
+        employeeService.addEmployee(new Employee(LANDAU,MAIL,SALARY_1, D_ID));
         employees = employeeService.getEmployees();
         Assert.assertEquals((sizeBefore + 1), employees.size());
     }
@@ -74,7 +74,7 @@ public class EmployeeServiceImplTest {
     @Test
     public void updateEmployee() {
         Employee employee =
-                new Employee(MARIE_CURIE, SALARY_1, 1);
+                new Employee(MARIE_CURIE,MAIL,SALARY_1, 1);
         Employee newEmployee = employeeService.addEmployee(employee);
         newEmployee.setEmployeeName(LANDAU);
         newEmployee.setSalary(SALARY_2);
@@ -87,7 +87,7 @@ public class EmployeeServiceImplTest {
 
     @Test
     public void deleteEmployeeById() {
-        Employee employee = new Employee(MARIE_CURIE, SALARY_2, D_ID);
+        Employee employee = new Employee(MARIE_CURIE,MAIL,SALARY_2, D_ID);
         employeeService.addEmployee(employee);
         Collection<Employee> employees = employeeService.getEmployees();
         int sizeBefore = employees.size();
