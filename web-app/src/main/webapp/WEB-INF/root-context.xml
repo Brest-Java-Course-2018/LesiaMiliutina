@@ -3,13 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-4.3.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 
     <import resource="sample-db-spring.xml"></import>
@@ -27,12 +26,20 @@
         <constructor-arg name="dataSource" ref="dataSource"/>
     </bean>
 
+    <bean id="departmentDao" class="com.epam.brest.course.dao.DepartmentDaoImpl">
+        <constructor-arg ref="namedParameterJdbcTemplate"/>
+    </bean>
+
     <bean id="departmentService" class="com.epam.brest.course.service.DepartmentServiceImpl">
         <constructor-arg ref="departmentDao"/>
     </bean>
 
-    <bean id="departmentDao" class="com.epam.brest.course.dao.DepartmentDaoImpl">
+    <bean id="employeeDao" class="com.epam.brest.course.dao.EmployeeDaoImpl">
         <constructor-arg ref="namedParameterJdbcTemplate"/>
+    </bean>
+
+    <bean id="employeeService" class="com.epam.brest.course.service.EmployeeServiceImpl">
+        <constructor-arg ref="employeeDao"/>
     </bean>
 
     <bean

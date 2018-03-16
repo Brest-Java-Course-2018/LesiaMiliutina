@@ -2,6 +2,7 @@ package com.epam.brest.course.service;
 
 import com.epam.brest.course.dao.DepartmentDao;
 import com.epam.brest.course.model.Department;
+import com.epam.brest.course.dto.DepartmentDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     private DepartmentDao departmentDao;
 
+
     /**
      * Constructor with parameter.
      * @param deptDao object of DepartmentDao class.
@@ -33,6 +35,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentServiceImpl(final DepartmentDao deptDao) {
         this.departmentDao = deptDao;
     }
+
 
     /**
      * Method for getting all rows of table.
@@ -91,6 +94,20 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentDao.deleteDepartmentById(id);
     }
 
+
+    /**
+     * Returns average salary of each department.
+     *
+     * @return average salary.
+     */
+    @Override
+    public final Collection<DepartmentDto> getAverageSalary() {
+        LOGGER.debug("getAverageSalary()");
+
+        Collection<DepartmentDto> dto = departmentDao.getAverageSalary();
+        return  dto;
+    }
+
     /**
      * Method for updating department description.
      * @param departmentId id of department.
@@ -107,4 +124,5 @@ public class DepartmentServiceImpl implements DepartmentService {
         department.setDescription(description);
         departmentDao.updateDepartment(department);
     }
+
 }

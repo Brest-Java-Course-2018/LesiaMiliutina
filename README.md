@@ -26,3 +26,9 @@ The project is intended for using by HR specialists.
     check: <project>/target/stage/index.html
 
 4. Travis CI integration https://travis-ci.org/Brest-Java-Course-2018/LesiaMiliutina/
+
+
+Following versions of software products are used for developing:
+JDK: 1.8
+Maven: 3.3.9
+Spring: 4

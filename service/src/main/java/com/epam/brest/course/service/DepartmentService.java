@@ -1,6 +1,7 @@
 package com.epam.brest.course.service;
 
 import com.epam.brest.course.model.Department;
+import com.epam.brest.course.dto.DepartmentDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -49,5 +50,12 @@ public interface DepartmentService {
      * @param description new description.
      */
     void updateDepartmentDescription(Integer departmentId, String description);
+
+    /**
+     * Returns average salary of each department.
+     * @return average salary.
+     */
+    Collection<DepartmentDto> getAverageSalary();
+
 
 }

@@ -1,6 +1,7 @@
 package com.epam.brest.course.dao;
 
 import com.epam.brest.course.model.Department;
+import com.epam.brest.course.dto.DepartmentDto;
 
 import java.util.Collection;
 
@@ -23,6 +24,12 @@ public interface DepartmentDao {
   Department getDepartmentById(Integer departmentId);
 
   /**
+   * Returns average salary of each department.
+   * @return average salary.
+   */
+  Collection<DepartmentDto> getAverageSalary();
+
+  /**
    * Method for adding rows in table.
    * @param department added department object.
    * @return added department.
@@ -40,5 +47,6 @@ public interface DepartmentDao {
    * @param id department id.
    */
   void deleteDepartmentById(Integer id);
+
 
 }

@@ -1,6 +1,7 @@
 package com.epam.brest.course.dao;
 
 import com.epam.brest.course.model.Department;
+import com.epam.brest.course.dto.DepartmentDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,6 +51,12 @@ public class DepartmentDaoImpl implements DepartmentDao {
    */
   @Value("${department.selectById}")
   private String departmentSelectById;
+  /**
+   * Sql query.
+   */
+  @Value("${department.avgSalary}")
+  private String departmentAvgSalary;
+
   /**
    * Insert sql query.
    */
@@ -202,6 +209,22 @@ public class DepartmentDaoImpl implements DepartmentDao {
       department.setDescription(resultSet.getString(DESCRIPTION));
       return department;
     }
+  }
+
+  /**
+   * Returns average salary of each department.
+   *
+   * @return average salary.
+   */
+  @Override
+  public final Collection<DepartmentDto> getAverageSalary() {
+    LOGGER.debug("getAverageSalary()");
+    Collection<DepartmentDto> salary =
+            namedParameterJdbcTemplate.getJdbcOperations().
+                    query(departmentAvgSalary,
+                            BeanPropertyRowMapper.newInstance(
+                                    DepartmentDto.class));
+    return salary;
   }
 
 }
