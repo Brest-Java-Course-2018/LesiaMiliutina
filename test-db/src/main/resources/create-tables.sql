@@ -9,8 +9,8 @@ PRIMARY KEY(departmentId)
 DROP TABLE IF EXISTS employee;
 CREATE TABLE employee (
   employeeId   INT NOT NULL AUTO_INCREMENT,
-  employeeName VARCHAR(255) NULL,
-  employeeMail VARCHAR(255) NULL,
+  employeeName VARCHAR(255) NOT NULL,
+  employeeMail VARCHAR(255) NOT NULL,
   salary       INT NOT NULL DEFAULT 0,
   departmentId INT NOT NULL,
   PRIMARY KEY (employeeId),

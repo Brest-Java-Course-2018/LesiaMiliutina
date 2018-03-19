@@ -75,6 +75,9 @@
         <property name="characterEncoding" value="UTF-8" />
     </bean>
 
+    <bean id="validator"
+           class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
     <context:property-placeholder location="classpath:application.properties"/>
 
 </beans>

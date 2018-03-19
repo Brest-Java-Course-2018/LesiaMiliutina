@@ -52,10 +52,9 @@ public interface DepartmentService {
     void updateDepartmentDescription(Integer departmentId, String description);
 
     /**
-     * Returns average salary of each department.
-     * @return average salary.
+     * Get all departments.
+     * @return collection.
      */
-    Collection<DepartmentDto> getAverageSalary();
-
+    Collection<DepartmentDto> getDepartmentsDto();
 
 }

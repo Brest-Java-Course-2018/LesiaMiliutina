@@ -42,6 +42,11 @@ public class DepartmentDaoImpl implements DepartmentDao {
   public static final String DESCRIPTION = "description";
 
   /**
+   * Constant variable.
+   */
+  public static final String AVG = "avgSalary";
+
+  /**
    * Select sql query.
    */
   @Value("${department.select}")
@@ -54,8 +59,8 @@ public class DepartmentDaoImpl implements DepartmentDao {
   /**
    * Sql query.
    */
-  @Value("${department.avgSalary}")
-  private String departmentAvgSalary;
+  @Value("${department.selectDto}")
+  private String selectDto;
 
   /**
    * Insert sql query.
@@ -144,19 +149,17 @@ public class DepartmentDaoImpl implements DepartmentDao {
    */
   @Override
   public final Department addDepartment(final Department department) {
-    LOGGER.debug("addDepartment({})", department);
+//    LOGGER.debug("addDepartment({})", department);
     MapSqlParameterSource namedParameters =
             new MapSqlParameterSource(
                     DEPARTMENT_NAME, department.getDepartmentName());
     Integer result = namedParameterJdbcTemplate.queryForObject(
             departmentCheck, namedParameters, Integer.class);
-
     LOGGER.debug("result({})", result);
     if (result == 0) {
       namedParameters = new MapSqlParameterSource();
       namedParameters.addValue(DEPARTMENT_NAME, department.getDepartmentName());
       namedParameters.addValue(DESCRIPTION, department.getDescription());
-
       KeyHolder generateKeyHolder = new GeneratedKeyHolder();
       namedParameterJdbcTemplate.
               update(departmentAdd, namedParameters, generateKeyHolder);
@@ -165,6 +168,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
       throw new IllegalArgumentException(
               "Department with the same name is already exists.");
     }
+    LOGGER.debug("addDepartment({})", department);
     return department;
   }
 
@@ -192,6 +196,21 @@ public class DepartmentDaoImpl implements DepartmentDao {
   }
 
   /**
+   * Returns average salary of each department.
+   *
+   * @return average salary.
+   */
+  @Override
+  public final Collection<DepartmentDto> getDepartmentsDto() {
+    LOGGER.debug("getDepartmentsDto()");
+    Collection<DepartmentDto> departmentDtos =
+            namedParameterJdbcTemplate.getJdbcOperations().
+                    query(selectDto,
+                            new DepartmentDtoRowMapper());
+    return departmentDtos;
+  }
+
+  /**
    * Delete this class later!!!
    * Row mapper for department class.
    */
@@ -211,20 +230,23 @@ public class DepartmentDaoImpl implements DepartmentDao {
     }
   }
 
-  /**
-   * Returns average salary of each department.
-   *
-   * @return average salary.
-   */
-  @Override
-  public final Collection<DepartmentDto> getAverageSalary() {
-    LOGGER.debug("getAverageSalary()");
-    Collection<DepartmentDto> salary =
-            namedParameterJdbcTemplate.getJdbcOperations().
-                    query(departmentAvgSalary,
-                            BeanPropertyRowMapper.newInstance(
-                                    DepartmentDto.class));
-    return salary;
-  }
 
+  /**
+   * Row mapper.
+   */
+  private class DepartmentDtoRowMapper implements RowMapper<DepartmentDto> {
+
+    @Override
+    public DepartmentDto mapRow(final ResultSet resultSet,
+                             final int i)
+            throws SQLException {
+
+      DepartmentDto department = new DepartmentDto();
+
+      department.setDepartmentId(resultSet.getInt(DEPARTMENT_ID));
+      department.setDepartmentName(resultSet.getString(DEPARTMENT_NAME));
+      department.setAvgSalary(resultSet.getInt(AVG));
+      return department;
+    }
+  }
 }

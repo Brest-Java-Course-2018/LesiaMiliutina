@@ -19,7 +19,8 @@ public class DepartmentDto {
      * @param avg average salary.
      */
     public DepartmentDto(final Integer dId,
-                         final String dName, final Integer avg) {
+                         final String dName,
+                         final Integer avg) {
         this.departmentId = dId;
         this.departmentName = dName;
         this.avgSalary = avg;

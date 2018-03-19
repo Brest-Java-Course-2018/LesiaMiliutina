@@ -6,12 +6,14 @@ import com.epam.brest.course.dto.DepartmentDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
 /**
  * Implementation of DepartmentService interface.
  */
+@Transactional
 public class DepartmentServiceImpl implements DepartmentService {
 
 
@@ -101,10 +103,10 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return average salary.
      */
     @Override
-    public final Collection<DepartmentDto> getAverageSalary() {
-        LOGGER.debug("getAverageSalary()");
+    public final Collection<DepartmentDto> getDepartmentsDto() {
+        LOGGER.debug("getDepartmentsDto");
 
-        Collection<DepartmentDto> dto = departmentDao.getAverageSalary();
+        Collection<DepartmentDto> dto = departmentDao.getDepartmentsDto();
         return  dto;
     }
 

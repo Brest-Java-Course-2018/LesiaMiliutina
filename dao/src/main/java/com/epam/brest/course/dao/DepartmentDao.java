@@ -27,7 +27,7 @@ public interface DepartmentDao {
    * Returns average salary of each department.
    * @return average salary.
    */
-  Collection<DepartmentDto> getAverageSalary();
+  Collection<DepartmentDto> getDepartmentsDto();
 
   /**
    * Method for adding rows in table.

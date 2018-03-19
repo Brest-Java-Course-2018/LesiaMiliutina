@@ -33,6 +33,8 @@
         <spring.version>4.3.14.RELEASE</spring.version>
         <log4j2.version>2.10.0</log4j2.version>
         <thymeleaf-spring4.version>3.0.9.RELEASE</thymeleaf-spring4.version>
+        <validation-api.version>2.0.1.Final</validation-api.version>
+        <hibernate-validator.version>6.0.8.Final</hibernate-validator.version>
     </properties>
 
     <dependencyManagement>
@@ -110,6 +112,18 @@
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
                 <version>${h2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
             </dependency>
 
             <dependency>

@@ -4,7 +4,7 @@ departmentId INT NOT NULL AUTO_INCREMENT,
 departmentName VARCHAR(255) NOT NULL,
 description VARCHAR(255) NULL,
 PRIMARY KEY(departmentId)
-);
+) ENGINE=INNODB;
 
 DROP TABLE IF EXISTS employee;
 CREATE TABLE employee (
@@ -17,4 +17,6 @@ CREATE TABLE employee (
   CONSTRAINT employeeToDepartmentFK
   FOREIGN KEY (departmentId)
   REFERENCES department (departmentId)
+  ON UPDATE CASCADE
+  ON DELETE CASCADE
 );

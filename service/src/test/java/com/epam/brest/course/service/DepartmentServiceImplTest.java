@@ -1,5 +1,6 @@
 package com.epam.brest.course.service;
 
+import com.epam.brest.course.dto.DepartmentDto;
 import com.epam.brest.course.model.Department;
 import org.junit.Assert;
 import org.junit.Test;
@@ -94,4 +95,11 @@ public class DepartmentServiceImplTest {
         Assert.assertEquals(DESC, department.getDescription());
     }
 
+    @Test
+    public void getDepartmentsDto() {
+        Collection<DepartmentDto> departments =
+                departmentService.getDepartmentsDto();
+        Assert.assertNotNull(departments);
+        Assert.assertFalse(departments.isEmpty());
+    }
 }

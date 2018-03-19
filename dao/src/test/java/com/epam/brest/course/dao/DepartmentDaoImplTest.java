@@ -1,5 +1,6 @@
 package com.epam.brest.course.dao;
 
+import com.epam.brest.course.dto.DepartmentDto;
 import com.epam.brest.course.model.Department;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -131,4 +132,11 @@ public class DepartmentDaoImplTest {
             departmentDao.getDepartments().size());
   }
 
+  @Test
+  public void getDepartmentsDto() {
+    Collection<DepartmentDto> departmentDto =
+            departmentDao.getDepartmentsDto();
+    Assert.assertFalse(departmentDto.isEmpty());
+
+  }
 }

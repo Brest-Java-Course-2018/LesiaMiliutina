@@ -127,13 +127,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
      */
     @Override
     public final Employee addEmployee(final Employee employee) {
-        LOGGER.debug("addEmployee({})", employee);
         SqlParameterSource namedParameters =
                 new BeanPropertySqlParameterSource(employee);
         KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.
                 update(employeeAdd, namedParameters, generatedKeyHolder);
         employee.setEmployeeId(generatedKeyHolder.getKey().intValue());
+        LOGGER.debug("addEmployee({})", employee);
         return employee;
     }
 
