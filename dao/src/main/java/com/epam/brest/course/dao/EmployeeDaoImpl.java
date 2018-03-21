@@ -56,6 +56,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
     private String employeeDelete;
 
     /**
+     * Check sql query.
+     */
+    @Value("${employee.check}")
+    private String employeeCheck;
+
+    /**
      * Constant variable.
      */
     public static final String EMPLOYEE_ID = "employeeId";
@@ -130,9 +136,18 @@ public class EmployeeDaoImpl implements EmployeeDao {
         SqlParameterSource namedParameters =
                 new BeanPropertySqlParameterSource(employee);
         KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
-        namedParameterJdbcTemplate.
-                update(employeeAdd, namedParameters, generatedKeyHolder);
-        employee.setEmployeeId(generatedKeyHolder.getKey().intValue());
+        Integer result = namedParameterJdbcTemplate.queryForObject(
+                employeeCheck, namedParameters, Integer.class);
+        LOGGER.debug("result({})", result);
+        if (result == 0) {
+            namedParameterJdbcTemplate.
+                    update(employeeAdd, namedParameters, generatedKeyHolder);
+            employee.setEmployeeId(generatedKeyHolder.getKey().intValue());
+        } else {
+            throw new IllegalArgumentException(
+                    "Such an employee is already on the staff "
+                            + "of this department.");
+        }
         LOGGER.debug("addEmployee({})", employee);
         return employee;
     }
@@ -146,8 +161,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         LOGGER.debug("updateEmployee({})", employee);
         SqlParameterSource namedParameters =
                 new BeanPropertySqlParameterSource(employee);
-        namedParameterJdbcTemplate.update(employeeUpdate, namedParameters);
-
+            namedParameterJdbcTemplate.update(employeeUpdate, namedParameters);
     }
 
     /**

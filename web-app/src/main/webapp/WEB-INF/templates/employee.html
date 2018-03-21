@@ -98,21 +98,23 @@
                                    name="field_employeeId"
                                    type="hidden"
                                    th:field ="*{employeeId}">
+
                             <div class="form-group"
-                                 th:class="${#fields.hasErrors('employeeName')} ? 'form-group has-error' : 'form-group'">
+                                 th:class="${#fields.hasErrors('*')} ? 'form-group is-invalid' : 'form-group'">
+
                                 <label class="form-control-label"
-                                       for="deptNameInput">Department</label>
-                                <select type="text"
-                                        class="form-control"
-                                        id="deptNameInput">
+                                       for="departmentIdInput">Department</label>
+                                <select class="form-control" id="departmentIdInput"
+                                        th:field="*{departmentId}">
                                     <option th:each="department : ${departments}"
-                                            th:text="${department.departmentName}"
-                                            th:selected="${isNew !='false'} ? ${department.departmentId}==${employee.departmentId} : 0">
+                                            th:value="${department.departmentId}"
+                                            th:text="${department.departmentName}">
                                     </option>
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group"
+                                 th:class="${#fields.hasErrors('employeeName')} ? 'form-group is-invalid' : 'form-group'">
                                 <label class="form-control-label"
                                        for="employeeNameInput">Employee name</label>
                                 <input type="text"
@@ -125,7 +127,8 @@
                                      th:errors="*{employeeName}">[errors]</div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group"
+                                 th:class="${#fields.hasErrors('employeeMail')} ? 'form-group is-invalid' : 'form-group'">
                                 <label class="form-control-label"
                                        for="employeeMailInput">Email</label>
                                 <input type="text"
@@ -135,17 +138,23 @@
                                        th:field ="*{employeeMail}">
                                 <div class="form-text text-danger"
                                      th:if="${#fields.hasErrors('employeeMail')}"
-                                     th:errors="*{employeeMail}">[errors]</div>
+                                     th:errors="*{employeeMail}">[errors]
+                                </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group"
+                                 th:class="${#fields.hasErrors('salary')} ? 'form-group is-invalid' : 'form-group'">
                                 <label class="form-control-label"
                                        for="employeeSalaryInput">Salary</label>
-                                <input type="text"
+                                <input type="number"
                                        class="form-control"
                                        id="employeeSalaryInput"
                                        placeholder="Salary"
                                        th:field ="*{salary}">
+                                <div class="form-text text-danger"
+                                     th:if="${#fields.hasErrors('salary')}"
+                                     th:errors="*{salary}">[errors]
+                                </div>
                             </div>
 
                         </form>

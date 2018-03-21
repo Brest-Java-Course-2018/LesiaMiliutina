@@ -76,7 +76,7 @@ public class DepartmentController {
                                              final BindingResult result) {
         LOGGER.debug("updateDepartment({}, {})", department, result);
         if (result.hasErrors()) {
-            return "/department";
+            return "department";
         } else {
             this.departmentService.updateDepartment(department);
             return "redirect:/departments";
@@ -108,7 +108,7 @@ public class DepartmentController {
             @Valid  final Department department, final BindingResult result) {
         LOGGER.debug("addDepartment({},{})", department, result);
         if (result.hasErrors()) {
-            return "/department";
+            return "department";
         } else {
             departmentService.addDepartment(department);
             return "redirect:/departments";

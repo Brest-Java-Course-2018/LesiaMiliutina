@@ -24,6 +24,7 @@ public class EmployeeServiceImplTest {
 
     private static final String LANDAU = "Lev Landau";
     private static final String MARIE_CURIE = "Marie Curie";
+    private static final String PIERRE_CURIE = "Pierre Curie";
     private static final String MAIL = "test@mail";
     private static final int SALARY_1 = 90000;
     private static final int SALARY_2 = 121000;
@@ -57,7 +58,7 @@ public class EmployeeServiceImplTest {
     public void getEmployeesByDepartmentId() {
         int sizeBefore = employeeService.getEmployeesByDepartmentId(D_ID).size();
         employeeService.addEmployee(new Employee(MARIE_CURIE,MAIL,SALARY_1,D_ID));
-        employeeService.addEmployee(new Employee(MARIE_CURIE,MAIL,SALARY_1,D_ID));
+        employeeService.addEmployee(new Employee(PIERRE_CURIE,MAIL,SALARY_1,D_ID));
         int sizeAfter = employeeService.getEmployeesByDepartmentId(D_ID).size();
         Assert.assertTrue((sizeAfter - sizeBefore) == 2);
     }

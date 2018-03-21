@@ -1,6 +1,7 @@
 package com.epam.brest.course.web_app.controllers;
 
 import com.epam.brest.course.dto.DepartmentDto;
+import com.epam.brest.course.model.Department;
 import com.epam.brest.course.model.Employee;
 import com.epam.brest.course.service.DepartmentService;
 import com.epam.brest.course.service.EmployeeService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.Collection;
 
 /**
@@ -32,7 +34,6 @@ public class EmployeeController {
      */
     @Autowired
     private EmployeeService employeeService;
-
 
     /**
      * Department service field for employee controller.
@@ -77,14 +78,19 @@ public class EmployeeController {
      * Update employee.
      * @param employee updated employee.
      * @param result binding result.
+     * @param model model.
      * @return view.
      */
     @PostMapping(value = "/employee/{id}")
-    public final String editEmployee(/*@Valid*/final Employee employee,
-                                           final BindingResult result) {
+    public final String editEmployee(@Valid final Employee employee,
+                                     final BindingResult result,
+                                     final Model model) {
         LOGGER.debug("updateEmployee({}, {})", employee, result);
         if (result.hasErrors()) {
-            return "/employee";
+            Collection<Department> departments =
+                    departmentService.getDepartments();
+            model.addAttribute("departments", departments);
+            return "employee";
         } else {
             this.employeeService.updateEmployee(employee);
             return "redirect:/employees";
@@ -100,7 +106,7 @@ public class EmployeeController {
     public final String addEmployeePage(final Model model) {
         LOGGER.debug("addEmployeePage({})", model);
         Collection<DepartmentDto> departments =
-                departmentService.getDepartmentsDto();
+               departmentService.getDepartmentsDto();
         Employee employee = new Employee();
         model.addAttribute("employee", employee);
         model.addAttribute("departments", departments);
@@ -112,14 +118,19 @@ public class EmployeeController {
      * Add employee.
      * @param employee employee object for adding.
      * @param result binding result.
+     * @param model model.
      * @return view.
      */
     @PostMapping(value = "/employee")
-    public final String addEmployee(
-            final Employee employee, final BindingResult result) {
+    public final String addEmployee(@Valid final Employee employee,
+                                    final BindingResult result,
+                                    final Model model) {
         LOGGER.debug("addEmployee({},{})", employee, result);
         if (result.hasErrors()) {
-            return "/employee";
+            Collection<Department> departments =
+                    departmentService.getDepartments();
+            model.addAttribute("departments", departments);
+            return "employee";
         } else {
             employeeService.addEmployee(employee);
             return "redirect:/employees";

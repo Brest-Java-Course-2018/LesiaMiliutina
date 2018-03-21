@@ -102,7 +102,7 @@
                                        th:field ="*{departmentId}">
 
                                 <div class="form-group"
-                                     th:class="${#fields.hasErrors('departmentName')} ? 'form-group has-error' : 'form-group'">
+                                     th:class="${#fields.hasErrors('departmentName')} ? 'form-group is-invalid' : 'form-group'">
                                     <label class="d-none d-sm-inline"
                                            for="deptNameInput">Department name</label>
                                     <input type="text"
@@ -115,7 +115,8 @@
                                         th:if="${#fields.hasErrors('departmentName')}"
                                         th:errors="*{departmentName}">[errors]</div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group"
+                                     th:class="${#fields.hasErrors('description')} ? 'form-group is-invalid' : 'form-group'">
                                     <label class="d-none d-sm-inline"
                                            for="deptNameInput1">Description</label>
                                     <input type="text"

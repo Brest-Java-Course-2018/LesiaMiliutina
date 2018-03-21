@@ -82,6 +82,11 @@ public class DepartmentDaoImpl implements DepartmentDao {
    */
   @Value("${department.check}")
   private String departmentCheck;
+  /**
+   * Check sql query.
+   */
+  @Value("${department.updateCheck}")
+  private String updateCheck;
 
   /**
    * Allowing using names of parameters rather than '?' placeholders.
@@ -181,7 +186,15 @@ public class DepartmentDaoImpl implements DepartmentDao {
     LOGGER.debug("updateDepartment({})", department);
     SqlParameterSource namedParameters =
             new BeanPropertySqlParameterSource(department);
+    Integer result = namedParameterJdbcTemplate.queryForObject(
+            updateCheck, namedParameters, Integer.class);
+    LOGGER.debug("result({})", result);
+    if (result == 0) {
     namedParameterJdbcTemplate.update(departmentUpdate, namedParameters);
+    } else {
+      throw new IllegalArgumentException(
+              "Such a department is already exists.");
+    }
   }
 
   /**
