@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Departments</title>
+    <title th:text="#{app.departments}"/>
     <link rel="stylesheet"
           href="../../resources/static/css/font-awesome.min.css"
           th:href="@{/resources/static/css/font-awesome.min.css}">
@@ -18,7 +18,7 @@
 <body>
 
 
-<nav class="pl-2 navbar navbar-expand-sm navbar-dark bg-dark text-light p-0">
+<nav class="pl-2 navbar navbar-expand-sm navbar-dark bg-dark text-light pl-0">
     <button class="navbar-toggler"
             type="button"
             data-toggle="collapse"
@@ -34,21 +34,22 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link active"
                href="departments.html"
-               th:href="@{/departments}">Departments
+               th:href="@{/departments}"
+               th:text="#{app.departments}">
                 <span class="sr-only">(current)</span>
             </a>
             <a class="nav-item nav-link"
                href="employees.html"
-               th:href="@{/employees}">Employees</a>
+               th:href="@{/employees}"
+               th:text="#{app.employees}" />
         </div>
     </div>
 </nav>
 
 <header>
     <nav class="navbar navbar-expand-sm navbar-light bg-light text-dark">
-        <a href = "departments.html" class="navbar-brand text-uppercase mr-auto">
-            Departments
-        </a>
+        <a href = "departments.html" class="navbar-brand text-uppercase mr-auto"
+          th:text="#{app.departments}"/>
         <ul class="p-0 pr-3 navbar-nav float-right">
             <li class="nav-item">
                 <a href="department.html"
@@ -56,9 +57,9 @@
                    class="pr-3 btn btn-light"
                    data-toggle="tooltip"
                    data-placement="bottom"
-                   title="Add department">
+                   th:title="#{department.add}">
                     <i class="fa fa-plus"></i>
-                    <span class="pl-1 d-none d-sm-inline">Add</span>
+                    <span class="pl-1 d-none d-sm-inline" th:text="#{app.addBtn}"></span>
                 </a>
             </li>
         </ul>
@@ -73,34 +74,34 @@
                     <table class="table table-striped table-light">
                         <thead class="thead-inverse">
                         <tr>
-                            <th>Title</th>
-                            <th>Avg salary</th>
+                            <th th:text="#{department.titleColumn}"/>
+                            <th th:text="#{department.avgSalColumn}"/>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="department : ${departments}">
-                            <td th:text = "${department.departmentName}">CEO</td>
-                            <td th:text = "${department.avgSalary}">10000</td>
+                            <td th:text = "${department.departmentName}"></td>
+                            <td th:text = "${department.avgSalary}"></td>
                             <td class="text-right">
-                                <a title="Edit department"
+                                <a th:title="#{department.edit}"
                                    data-toggle="tooltip"
                                    data-placement="top"
                                    href="department.html"
                                    th:href=" @{|/department/${department.departmentId}}"
                                    class="btn-sm btn-outline-secondary p-0 pl-1 pr-3">
                                     <i class="fa fa-pencil"></i>
-                                    <span class="d-none d-md-inline">Edit</span>
+                                    <span class="d-none d-md-inline" th:text="#{app.editBtn}"/>
                                 </a>
                                 <span data-toggle="modal"
                                       data-target="#deleteDialog"
                                       th:attr="data-id=${department.departmentId},data-name=${department.departmentName}">
                                 <a href="#"
                                    class="btn-sm btn-outline-secondary"
-                                   title="Delete department"
+                                   th:title="#{department.delDepartment}"
                                    data-toggle="tooltip"
                                    data-placement="top">
-                                    <i class="fa fa-remove"></i> <span class="d-none d-md-inline">Delete</span>
+                                    <i class="fa fa-remove"></i> <span class="d-none d-md-inline" th:text="#{app.delBtn}"/>
                                 </a>
                                 </span>
                             </td>
@@ -224,7 +225,11 @@
                     </table>
                 </div>
                 <div class="card alert alert-info" th:if="${departments.isEmpty()}">
-                    <h2>Nothing found</h2>
+                    <h2 th:text="#{app.empty}"/>
+                </div>
+                <div>
+                    <a th:href="@{/departments?lang=en}">EN</a>
+                    <a th:href="@{/departments?lang=ru}">RU</a>
                 </div>
             </div>
         </div>
@@ -241,17 +246,17 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header alert-danger">
-                <h5 class="modal-title" id="exampleModalLabel">Delete department</h5>
+                <h5 class="modal-title" id="exampleModalLabel"
+                    th:text="#{department.delDepartment}"/>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                Please, confirm delete operation
+            <div class="modal-body" th:text="#{app.delConfirm}">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <a id="deleteUrl" href="#" class="btn btn-danger">Delete</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{app.cancel}"></button>
+                <a id="deleteUrl" href="#" class="btn btn-danger" th:text="#{app.delBtn}"></a>
             </div>
         </div>
     </div>
@@ -270,7 +275,7 @@ $(function () {
 
 $('#deleteDialog').on('show.bs.modal', function (event) {
     var target = $(event.relatedTarget)
-    $(this).find('.modal-body').text('All employees of the department will be deleted. Please, confirm delete operation: "'
+    $(this).find('.modal-body').text('All employees of the department will be deleted. Please, confirm delete operation:' + ' "'
         + target.data('name') + ' department"')
     document.getElementById('deleteUrl').href = '/department/' + target.data('id') + '/delete';
 })

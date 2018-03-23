@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title th:text="${isNew} ? 'Add employee' : 'Edit employee'"/>
+    <title th:text="${isNew} ? #{employee.add} : #{employee.edit}"/>
     <link rel="stylesheet"
           href="../../resources/static/css/font-awesome.min.css"
           th:href="@{/resources/static/css/font-awesome.min.css}">
@@ -33,10 +33,12 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link"
                href="departments.html"
-               th:href="@{/departments}">Departments</a>
+               th:href="@{/departments}"
+               th:text="#{app.departments}"/>
             <a class="nav-item nav-link active"
                href="employees.html"
-               th:href="@{/employees}">Employees</a>
+               th:href="@{/employees}"
+               th:text="#{app.employees}"/>
             <span class="sr-only">(current)</span>
         </div>
     </div>
@@ -47,7 +49,7 @@
 
         <ul class="navbar-nav float-lg-left">
             <li class="nav-item"
-                title="Back to list"
+                th:title="#{app.tooltipBack}"
                 data-toggle="tooltip"
                 data-placement="bottom">
                 <a href="employees.html"
@@ -59,7 +61,7 @@
         </ul>
 
         <span class="navbar-brand text-uppercase mr-auto"
-              th:text="${isNew} ? 'New employee' : 'Edit employee'"/>
+              th:text="${isNew} ? #{employee.add} : #{employee.edit}"/>
 
 
         <ul class="p-0 pr-3 navbar-nav">
@@ -70,9 +72,9 @@
                    class="btn btn-light"
                    data-toggle="tooltip"
                    data-placement="bottom"
-                   title="Save">
+                   th:title="#{app.save}">
                     <i class="fa fa-save"></i>
-                    <span class="pl-1 d-none d-sm-inline">Save</span>
+                    <span class="pl-1 d-none d-sm-inline" th:text="#{app.save}"/>
                 </a>
             </li>
         </ul>
@@ -92,18 +94,18 @@
                               th:action="@{${#httpServletRequest.servletPath}}"
                               th:method="@{post}">
                             <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-                                <p>Fix errors to continue</p>
+                                <p th:text="#{app.fix}"/>
                             </div>
                             <input id="field_employeeId"
                                    name="field_employeeId"
                                    type="hidden"
-                                   th:field ="*{employeeId}">
+                                   th:field="*{employeeId}">
 
                             <div class="form-group"
                                  th:class="${#fields.hasErrors('*')} ? 'form-group is-invalid' : 'form-group'">
 
                                 <label class="form-control-label"
-                                       for="departmentIdInput">Department</label>
+                                       for="departmentIdInput" th:text="#{employee.dept}"/>
                                 <select class="form-control" id="departmentIdInput"
                                         th:field="*{departmentId}">
                                     <option th:each="department : ${departments}"
@@ -116,26 +118,29 @@
                             <div class="form-group"
                                  th:class="${#fields.hasErrors('employeeName')} ? 'form-group is-invalid' : 'form-group'">
                                 <label class="form-control-label"
-                                       for="employeeNameInput">Employee name</label>
+                                       for="employeeNameInput"
+                                       th:text="#{employee.name}"/>
                                 <input type="text"
                                        class="form-control"
                                        id="employeeNameInput"
-                                       placeholder="Employee name"
-                                       th:field ="*{employeeName}">
+                                       th:placeholder="#{employee.empName}"
+                                       th:field="*{employeeName}">
                                 <div class="form-text text-danger"
                                      th:if="${#fields.hasErrors('employeeName')}"
-                                     th:errors="*{employeeName}">[errors]</div>
+                                     th:errors="*{employeeName}">[errors]
+                                </div>
                             </div>
 
                             <div class="form-group"
                                  th:class="${#fields.hasErrors('employeeMail')} ? 'form-group is-invalid' : 'form-group'">
                                 <label class="form-control-label"
-                                       for="employeeMailInput">Email</label>
+                                       for="employeeMailInput"
+                                       th:text="#{employee.mail}"/>
                                 <input type="text"
                                        class="form-control"
                                        id="employeeMailInput"
-                                       placeholder="Email"
-                                       th:field ="*{employeeMail}">
+                                       th:placeholder="#{employee.mail}"
+                                       th:field="*{employeeMail}">
                                 <div class="form-text text-danger"
                                      th:if="${#fields.hasErrors('employeeMail')}"
                                      th:errors="*{employeeMail}">[errors]
@@ -145,12 +150,13 @@
                             <div class="form-group"
                                  th:class="${#fields.hasErrors('salary')} ? 'form-group is-invalid' : 'form-group'">
                                 <label class="form-control-label"
-                                       for="employeeSalaryInput">Salary</label>
+                                       for="employeeSalaryInput"
+                                       th:text="#{employee.salary}"/>
                                 <input type="number"
                                        class="form-control"
                                        id="employeeSalaryInput"
-                                       placeholder="Salary"
-                                       th:field ="*{salary}">
+                                       th:placeholder="#{employee.salary}"
+                                       th:field="*{salary}">
                                 <div class="form-text text-danger"
                                      th:if="${#fields.hasErrors('salary')}"
                                      th:errors="*{salary}">[errors]
@@ -161,6 +167,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div>
+            <a th:href="@{/employee?lang=en}">EN</a>
+            <a th:href="@{/employee?lang=ru}">RU</a>
         </div>
     </div>
 
@@ -173,8 +183,8 @@
 <script src="../../resources/static/js/bootstrap.min.js"
         th:src="@{/resources/static/js/bootstrap.min.js}"></script>
 <script>
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})</script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })</script>
 </body>
 </html>

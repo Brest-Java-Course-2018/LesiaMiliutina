@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Employees</title>
+    <title th:text="#{app.employees}"/>
     <link rel="stylesheet"
           href="../../resources/static/css/font-awesome.min.css"
           th:href="@{/resources/static/css/font-awesome.min.css}">
@@ -33,10 +33,12 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link"
                href="departments.html"
-               th:href="@{/departments}">Departments</a>
+               th:href="@{/departments}"
+               th:text="#{app.departments}"/>
             <a class="nav-item nav-link active"
                href="employees.html"
-               th:href="@{/employees}">Employees
+               th:href="@{/employees}"
+               th:text="#{app.employees}">
                 <span class="sr-only">(current)</span>
             </a>
         </div>
@@ -45,9 +47,9 @@
 
 <header>
     <nav class="navbar navbar-expand-sm navbar-light bg-light text-dark">
-        <a href = "employees.html" class="navbar-brand text-uppercase mr-auto">
-            Employees
-        </a>
+        <a href = "employees.html" class="navbar-brand text-uppercase mr-auto"
+           th:text="#{app.employees}"/>
+
         <ul class="p-0 pr-3 navbar-nav float-right">
             <li class="nav-item">
                 <a href="employee.html"
@@ -55,9 +57,9 @@
                    class="pr-3 btn btn-light"
                    data-toggle="tooltip"
                    data-placement="bottom"
-                   title="Add employee">
+                   th:title="#{employee.add}">
                     <i class="fa fa-plus"></i>
-                    <span class="pl-1 d-none d-sm-inline">Add</span>
+                    <span class="pl-1 d-none d-sm-inline" th:text="#{app.addBtn}"/>
                 </a>
             </li>
         </ul>
@@ -72,9 +74,9 @@
                     <table class="table table-striped table-light">
                         <thead class="thead-inverse">
                         <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Salary</th>
+                            <th th:text="#{employee.name}"/>
+                            <th th:text="#{employee.mail}"/>
+                            <th th:text="#{employee.salary}"/>
                             <th></th>
                         </tr>
                         </thead>
@@ -84,23 +86,23 @@
                             <td th:text = "${employee.employeeMail}"></td>
                             <td th:text = "${employee.salary}"></td>
                             <td class="text-right">
-                                <a title="Edit employee"
+                                <a th:title="#{employee.edit}"
                                    data-toggle="tooltip"
                                    data-placement="top"
                                    href="employee.html"
                                    th:href="@{|/employee/${employee.employeeId}}"
                                    class="btn-sm btn-outline-secondary p-0 pl-1 pr-3">
                                     <i class="fa fa-pencil"></i>
-                                    <span class="d-none d-md-inline">Edit</span>
+                                    <span class="d-none d-md-inline" th:text="#{app.editBtn}"/>
                                 </a>
                                 <span data-toggle="modal"
                                       data-target="#deleteDialog"
                                       th:attr="data-id=${employee.employeeId},data-name=${employee.employeeName}">
                                 <a href="#" class="btn-sm btn-outline-secondary"
-                                   title="Delete employee"
+                                   th:title="#{employee.delete}"
                                    data-toggle="tooltip"
                                    data-placement="top">
-                                    <i class="fa fa-remove"></i> <span class="d-none d-md-inline">Delete</span>
+                                    <i class="fa fa-remove"></i> <span class="d-none d-md-inline" th:text="#{app.delBtn}"/>
                                 </a>
                                 </span>
                             </td>
@@ -110,9 +112,12 @@
                 </div>
 
                 <div class="card alert alert-info" th:if="${employees.isEmpty()}">
-                    <h2>Nothing found</h2>
+                    <h2 th:text="#{app.empty}"/>
                 </div>
-
+                <div>
+                    <a th:href="@{/employees?lang=en}">EN</a>
+                    <a th:href="@{/employees?lang=ru}">RU</a>
+                </div>
             </div>
         </div>
     </div>
@@ -128,17 +133,16 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header alert-danger">
-                <h5 class="modal-title" id="exampleModalLabel">Delete employee</h5>
+                <h5 class="modal-title" id="exampleModalLabel" th:text="#{employee.delete}"/>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                Please, confirm delete operation
+            <div class="modal-body" th:text="#{app.delConfirm}">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <a id="deleteUrl" href="#" class="btn btn-danger">Delete</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{app.cancel}"></button>
+                <a id="deleteUrl" href="#" class="btn btn-danger" th:text="#{app.delBtn}"></a>
             </div>
         </div>
     </div>
