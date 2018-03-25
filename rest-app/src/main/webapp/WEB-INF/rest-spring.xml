@@ -49,6 +49,14 @@
         <constructor-arg ref="departmentDao"/>
     </bean>
 
+    <bean id="employeeDao" class="com.epam.brest.course.dao.EmployeeDaoImpl">
+        <constructor-arg ref="namedParameterJdbcTemplate"/>
+    </bean>
+
+    <bean id="employeeService" class="com.epam.brest.course.service.EmployeeServiceImpl">
+        <constructor-arg ref="employeeDao"/>
+    </bean>
+
     <mvc:annotation-driven/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

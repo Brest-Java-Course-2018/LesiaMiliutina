@@ -161,7 +161,7 @@ $(function () {
 
 $('#deleteDialog').on('show.bs.modal', function (event) {
     var target = $(event.relatedTarget)
-    $(this).find('.modal-body').text('Please, confirm delete operation: "' + target.data('name') + '"')
+    // $(this).find('.modal-body').text('Please, confirm delete operation: "' + target.data('name') + '"')
     document.getElementById('deleteUrl').href = '/employee/' + target.data('id') + '/delete';
 })
 
