@@ -65,6 +65,12 @@
 
             <dependency>
                 <groupId>com.epam.brest.course</groupId>
+                <artifactId>client-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.epam.brest.course</groupId>
                 <artifactId>web-app</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
